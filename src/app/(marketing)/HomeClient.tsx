@@ -97,32 +97,29 @@ export default function HomeClient() {
   return (
     <>
       {/* ═══════════════════════════════════════════ HERO */}
-      <section ref={heroRef} style={{
+      <section ref={heroRef} className="stack-mobile hero-section" style={{
         position: "relative", minHeight: "100vh", display: "flex", alignItems: "center",
         overflow: "hidden",
         background: "#fff",
       }}>
-        {/* Mobile screen carousel right side */}
-        <HeroCarousel />
-
         {/* Subtle bottom separator */}
         <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 1, background: "rgba(0,0,0,0.06)", zIndex: 3 }} />
 
         {/* Hero text */}
-        <motion.div style={{ position: "relative", zIndex: 4, maxWidth: 1100, margin: "0 auto", padding: "120px 24px 80px", width: "100%", opacity: heroOpacity }}>
+        <motion.div className="section-pad" style={{ position: "relative", zIndex: 4, maxWidth: 1100, margin: "0 auto", width: "100%", opacity: heroOpacity }}>
           <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
             style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 24 }}>
             <StatusBadge status="live" />
             <span style={{ fontSize: 13, color: "#6B7280" }}>School Management Platform is live</span>
           </motion.div>
 
-          <div style={{ maxWidth: "52%", minWidth: 320 }}>
-            <h1 style={{ fontSize: "clamp(38px, 5.5vw, 68px)", fontWeight: 700, marginBottom: 20, color: "#0D1117" }}>
+          <div className="w-full-mobile text-center-mobile" style={{ maxWidth: "52%", minWidth: 280 }}>
+            <h1 style={{ fontSize: "clamp(32px, 5.5vw, 68px)", fontWeight: 700, marginBottom: 20, color: "#0D1117" }}>
               <RevealText text="Software built for every industry that powers Africa." />
             </h1>
 
             <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.5 }}
-              style={{ fontSize: "clamp(15px, 1.6vw, 18px)", lineHeight: 1.7, color: "#4B5563", marginBottom: 36 }}>
+              style={{ fontSize: "clamp(14px, 1.6vw, 18px)", lineHeight: 1.7, color: "#4B5563", marginBottom: 36 }}>
               Solforbs builds intelligent platforms that help organizations run better — starting with education, expanding across every sector.
             </motion.p>
 
@@ -151,6 +148,9 @@ export default function HomeClient() {
             </motion.div>
           </div>
 
+          {/* Mobile screen carousel (flows between text and stats on mobile) */}
+          <HeroCarousel />
+
           {/* Stats row */}
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.7, delay: 0.9 }}
             style={{ display: "flex", gap: 48, marginTop: 64, paddingTop: 32, borderTop: "1px solid rgba(0,0,0,0.07)", flexWrap: "wrap" }}>
@@ -177,7 +177,7 @@ export default function HomeClient() {
       </section>
 
       {/* ═══════════════════════════════════════════ PRODUCT PROOF */}
-      <section style={{ background: "#F7F9FC", padding: "96px 24px", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
+      <section className="section-pad-sm" style={{ background: "#F7F9FC", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <Reveal>
             <div style={{ marginBottom: 14 }}><StatusBadge status="live" /></div>
@@ -219,7 +219,7 @@ export default function HomeClient() {
       </section>
 
       {/* ═══════════════════════════════════════════ INDUSTRIES */}
-      <section style={{ background: "#fff", padding: "80px 24px", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
+      <section className="section-pad-sm stack-mobile" style={{ background: "#fff", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <Reveal>
             <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#2878E8", marginBottom: 12 }}>Platform Ecosystem</p>
@@ -246,7 +246,7 @@ export default function HomeClient() {
       </section>
 
       {/* ═══════════════════════════════════════════ WHY */}
-      <section style={{ background: "#F7F9FC", padding: "80px 24px", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
+      <section className="section-pad-sm" style={{ background: "#F7F9FC", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <Reveal>
             <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#2878E8", marginBottom: 12 }}>Why Solforbs</p>
@@ -267,7 +267,7 @@ export default function HomeClient() {
       </section>
 
       {/* ═══════════════════════════════════════════ ROADMAP */}
-      <section style={{ background: "#fff", padding: "80px 24px", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
+      <section className="section-pad-sm stack-mobile" style={{ background: "#fff", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
         <div style={{ maxWidth: 760, margin: "0 auto" }}>
           <Reveal>
             <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#2878E8", marginBottom: 12 }}>Roadmap</p>
@@ -311,7 +311,7 @@ export default function HomeClient() {
       </section>
 
       {/* ═══════════════════════════════════════════ CTA */}
-      <section style={{ position: "relative", padding: "100px 24px", textAlign: "center", overflow: "hidden", background: "linear-gradient(135deg, #39A8F5 0%, #1A3FD4 100%)" }}>
+      <section className="section-pad-sm stack-mobile" style={{ position: "relative", textAlign: "center", overflow: "hidden", background: "linear-gradient(135deg, #39A8F5 0%, #1A3FD4 100%)" }}>
         {/* Subtle grid pattern */}
         <div style={{ position: "absolute", inset: 0, backgroundImage: "radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px)", backgroundSize: "24px 24px", pointerEvents: "none" }} />
         <div style={{ position: "relative", zIndex: 2 }}>

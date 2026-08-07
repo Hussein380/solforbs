@@ -66,27 +66,6 @@ const screens = [
 export default function HeroCarousel() {
   const [index, setIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
-  const [scale, setScale] = useState(1);
-  const [isMobile, setIsMobile] = useState(false);
-
-  // Responsive handling
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setIsMobile(true);
-        setScale(window.innerWidth / 500); // Scale down proportionally on mobile
-      } else if (window.innerWidth < 1024) {
-        setIsMobile(false);
-        setScale(0.8);
-      } else {
-        setIsMobile(false);
-        setScale(1);
-      }
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   // Auto-play timer that pauses when hovered
   useEffect(() => {
@@ -108,20 +87,10 @@ export default function HeroCarousel() {
 
   return (
     <div 
+      className="hero-wrapper-mobile"
       onMouseEnter={() => setIsHovered(true)} 
       onMouseLeave={() => setIsHovered(false)}
-      style={{ 
-        position: isMobile ? "relative" : "absolute", 
-        right: isMobile ? "auto" : "2%", 
-        top: isMobile ? "auto" : "50%", 
-        marginTop: isMobile ? 60 : 0,
-        transform: isMobile ? `scale(${scale})` : `translateY(-50%) scale(${scale})`, 
-        transformOrigin: isMobile ? "top center" : "right center",
-        width: 500, 
-        height: 600, 
-        perspective: 1200, 
-        zIndex: 10 
-      }}
+      style={{ perspective: 1200, zIndex: 10 }}
     >
       {/* Background glow */}
       <div style={{ position: "absolute", top: "20%", left: "10%", width: 400, height: 400, background: "radial-gradient(circle, rgba(40,120,232,0.06) 0%, transparent 60%)", filter: "blur(40px)", pointerEvents: "none" }} />
@@ -166,6 +135,9 @@ export default function HeroCarousel() {
                 display: "flex",
                 flexDirection: "column",
                 cursor: isCenter ? "grab" : "pointer",
+                WebkitFontSmoothing: "antialiased",
+                transformStyle: "preserve-3d",
+                backfaceVisibility: "hidden",
               }}
               whileTap={isCenter ? { cursor: "grabbing" } : {}}
             >
@@ -189,17 +161,17 @@ export default function HeroCarousel() {
                 />
                 <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%)" }} />
                 
-                <div style={{ position: "absolute", bottom: 16, left: 20, fontSize: 13, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#fff" }}>
+                <div style={{ position: "absolute", bottom: 16, left: 20, fontSize: 15, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#fff" }}>
                   {screen.industry}
                 </div>
               </div>
 
               {/* Content area */}
               <div style={{ padding: "24px 20px", flex: 1, display: "flex", flexDirection: "column", pointerEvents: "none" }}>
-                <h3 style={{ fontSize: 18, fontWeight: 700, color: "#0D1117", marginBottom: 10, lineHeight: 1.25 }}>
+                <h3 style={{ fontSize: 22, fontWeight: 700, color: "#0D1117", marginBottom: 10, lineHeight: 1.25 }}>
                   {screen.title}
                 </h3>
-                <p style={{ fontSize: 13, color: "#4B5563", lineHeight: 1.6, flex: 1 }}>
+                <p style={{ fontSize: 15, color: "#4B5563", lineHeight: 1.6, flex: 1 }}>
                   {screen.desc}
                 </p>
 

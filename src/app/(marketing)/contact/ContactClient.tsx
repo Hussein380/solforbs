@@ -35,7 +35,7 @@ export default function ContactClient() {
 
   return (
     <>
-      <section style={{ background: "#fff", padding: "140px 24px 96px", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
+      <section className="section-pad" style={{ background: "#fff", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
         <div style={{ maxWidth: 700, margin: "0 auto" }}>
           <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#2878E8", marginBottom: 18 }}>Get in touch</p>
           <h1 style={{ fontSize: "clamp(34px, 5vw, 58px)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.03em", marginBottom: 16, fontFamily: "'Space Grotesk', sans-serif" }}>
@@ -47,7 +47,7 @@ export default function ContactClient() {
         </div>
       </section>
 
-      <section style={{ background: "#fff", padding: "80px 24px 100px" }}>
+      <section className="section-pad-sm" style={{ background: "#fff" }}>
         <div style={{ maxWidth: 960, margin: "0 auto", display: "grid", gap: 72, gridTemplateColumns: "1fr 1.6fr" }} className="contact-grid">
           {/* Contact Info */}
           <div>

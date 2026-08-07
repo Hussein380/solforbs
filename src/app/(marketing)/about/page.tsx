@@ -16,7 +16,7 @@ const values = [
 export default function AboutPage() {
   return (
     <>
-      <section style={{ background: "#fff", padding: "140px 24px 96px", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
+      <section className="section-pad" style={{ background: "#fff", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
         <div style={{ maxWidth: 800, margin: "0 auto" }}>
           <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#2878E8", marginBottom: 18 }}>Company</p>
           <h1 style={{ fontSize: "clamp(34px, 5vw, 60px)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.03em", marginBottom: 22, fontFamily: "'Space Grotesk', sans-serif" }}>
@@ -28,7 +28,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section style={{ background: "#F7F9FC", padding: "80px 24px", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
+      <section className="section-pad-sm" style={{ background: "#F7F9FC", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
         <div style={{ maxWidth: 900, margin: "0 auto" }}>
           <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#2878E8", marginBottom: 14 }}>What we do</p>
           <h2 style={{ fontSize: "clamp(22px, 2.8vw, 34px)", fontWeight: 700, letterSpacing: "-0.025em", marginBottom: 20 }}>
@@ -40,7 +40,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section style={{ background: "#fff", padding: "80px 24px", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
+      <section className="section-pad-sm" style={{ background: "#fff", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#2878E8", marginBottom: 14 }}>Values</p>
           <h2 style={{ fontSize: "clamp(22px, 2.8vw, 34px)", fontWeight: 700, letterSpacing: "-0.025em", marginBottom: 52 }}>
@@ -60,7 +60,7 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section style={{ background: "#F7F9FC", padding: "80px 24px", textAlign: "center", borderTop: "1px solid rgba(0,0,0,0.07)" }}>
+      <section className="section-pad-sm" style={{ background: "#F7F9FC", textAlign: "center", borderTop: "1px solid rgba(0,0,0,0.07)" }}>
         <h2 style={{ fontSize: "clamp(20px, 2.5vw, 30px)", fontWeight: 700, letterSpacing: "-0.025em", marginBottom: 10 }}>
           Want to know more?
         </h2>

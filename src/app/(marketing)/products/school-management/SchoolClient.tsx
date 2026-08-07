@@ -22,7 +22,7 @@ export default function SchoolClient() {
   return (
     <>
       {/* Hero */}
-      <section style={{ background: "#fff", padding: "140px 24px 96px", position: "relative", overflow: "hidden", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
+      <section className="section-pad stack-mobile" style={{ background: "#fff", position: "relative", overflow: "hidden", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
         <div style={{ position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)", width: 800, height: 500, background: "radial-gradient(ellipse, rgba(40,120,232,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
         <div style={{ maxWidth: 900, margin: "0 auto", position: "relative", zIndex: 2 }}>
           <div style={{ marginBottom: 20 }}><StatusBadge status="live" /></div>
@@ -58,7 +58,7 @@ export default function SchoolClient() {
       </section>
 
       {/* Features */}
-      <section style={{ background: "#F7F9FC", padding: "80px 24px" }}>
+      <section className="section-pad-sm" style={{ background: "#F7F9FC" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#2878E8", marginBottom: 14 }}>Platform capabilities</p>
           <h2 style={{ fontSize: "clamp(24px, 3.2vw, 38px)", fontWeight: 700, letterSpacing: "-0.03em", marginBottom: 52, color: "#0D1117" }}>What's included</h2>
@@ -75,7 +75,7 @@ export default function SchoolClient() {
       </section>
 
       {/* CTA */}
-      <section style={{ background: "#fff", padding: "80px 24px", textAlign: "center", borderTop: "1px solid rgba(0,0,0,0.07)", position: "relative", overflow: "hidden" }}>
+      <section className="section-pad-sm" style={{ background: "#fff", textAlign: "center", borderTop: "1px solid rgba(0,0,0,0.07)", position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%,-50%)", width: 500, height: 250, background: "radial-gradient(ellipse, rgba(40,120,232,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
         <div style={{ position: "relative", zIndex: 2 }}>
           <h2 style={{ fontSize: "clamp(22px, 3vw, 36px)", fontWeight: 700, letterSpacing: "-0.03em", marginBottom: 12, color: "#0D1117" }}>

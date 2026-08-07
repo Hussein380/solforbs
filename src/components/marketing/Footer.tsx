@@ -108,7 +108,7 @@ export default function Footer() {
       <style dangerouslySetInnerHTML={{ __html: `
         .footer-cols { display: grid; grid-template-columns: 1.2fr 1fr 1fr 1fr 1fr; gap: 40px; }
         @media (max-width: 900px) { .footer-cols { grid-template-columns: 1fr 1fr 1fr; } }
-        @media (max-width: 600px) { .footer-cols { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 600px) { .footer-cols { grid-template-columns: 1fr; gap: 32px; } }
       ` }} />
     </footer>
   );

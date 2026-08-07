@@ -19,7 +19,7 @@ const roadmapItems = [
 export default function VisionPage() {
   return (
     <>
-      <section style={{ background: "#fff", padding: "140px 24px 100px", position: "relative", overflow: "hidden", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
+      <section className="section-pad stack-mobile" style={{ background: "#fff", position: "relative", overflow: "hidden", borderBottom: "1px solid rgba(0,0,0,0.07)" }}>
         <div style={{ position: "absolute", top: 0, left: "50%", transform: "translateX(-50%)", width: 800, height: 500, background: "radial-gradient(ellipse, rgba(40,120,232,0.06) 0%, transparent 70%)", pointerEvents: "none" }} />
         <div style={{ maxWidth: 800, margin: "0 auto", position: "relative", zIndex: 2 }}>
           <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#2878E8", marginBottom: 20 }}>Vision</p>
@@ -34,7 +34,7 @@ export default function VisionPage() {
         </div>
       </section>
 
-      <section style={{ background: "#F7F9FC", padding: "100px 24px 120px" }}>
+      <section className="section-pad-sm" style={{ background: "#F7F9FC" }}>
         <div style={{ maxWidth: 760, margin: "0 auto" }}>
           <p style={{ fontSize: 12, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#2878E8", marginBottom: 16 }}>Roadmap</p>
           <h2 style={{ fontSize: "clamp(24px, 3vw, 36px)", fontWeight: 700, letterSpacing: "-0.03em", marginBottom: 64, fontFamily: "'Space Grotesk', sans-serif" }}>
@@ -72,7 +72,7 @@ export default function VisionPage() {
         </div>
       </section>
 
-      <section style={{ background: "#fff", padding: "80px 24px", textAlign: "center", borderTop: "1px solid rgba(0,0,0,0.07)" }}>
+      <section className="section-pad-sm" style={{ background: "#fff", textAlign: "center", borderTop: "1px solid rgba(0,0,0,0.07)" }}>
         <h2 style={{ fontSize: "clamp(24px, 3.5vw, 40px)", fontWeight: 700, letterSpacing: "-0.03em", marginBottom: 12, fontFamily: "'Space Grotesk', sans-serif" }}>
           Let's build the future together.
         </h2>
