@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+@import "tailwindcss";
+
+/* ─── Brand Tokens (logo colors) ───────────────────────────────── */
+:root {
+  /* Logo gradient */
+  --brand-sky:   #39A8F5;
+  --brand-royal: #1A3FD4;
+  --brand-mid:   #2878E8;
+
+  /* Backgrounds — white / very light gray */
+  --bg:          #FFFFFF;
+  --bg-alt:      #F7F9FC;      /* section alternation */
+  --bg-card:     #FFFFFF;      /* card surface */
+  --bg-card-alt: #F4F7FB;      /* tinted card */
+
+  /* Borders */
+  --border:        rgba(0,0,0,0.08);
+  --border-accent: rgba(40,120,232,0.3);
+
+  /* Text */
+  --text-primary:   #0D1117;
+  --text-secondary: #4B5563;
+  --text-tertiary:  #9CA3AF;
+
+  /* Status */
+  --status-live:    #16A34A;
+  --status-dev:     var(--brand-mid);
+  --status-planned: #9CA3AF;
+
+  /* Gradients */
+  --gradient-brand: linear-gradient(135deg, var(--brand-sky) 0%, var(--brand-royal) 100%);
+  --gradient-glow:  radial-gradient(circle at 50% 0%, rgba(40,120,232,0.06), transparent 65%);
+}
+
+/* ─── Base reset ────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  font-family: 'Inter', system-ui, sans-serif;
+  color: var(--text-primary);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background: var(--bg);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--text-primary);
+}
+
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+
+/* ─── Gradient text (logo colors) ──────────────────────────────── */
+.gradient-text {
+  background: var(--gradient-brand);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Card ──────────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: box-shadow 0.25s ease, transform 0.2s ease;
+}
+.card:hover {
+  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  transform: translateY(-2px);
+}
+
+/* ─── Scrollbar ─────────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #f1f5f9; }
+::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+
+/* ─── Status pulse ──────────────────────────────────────────────── */
+@keyframes live-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(22,163,74,0.4); }
+  50%       { box-shadow: 0 0 0 4px rgba(22,163,74,0); }
+}
