@@ -6,8 +6,8 @@ import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-
 import { useState } from "react";
 
 const navLinks = [
-  { label: "Products", href: "/products/school-management" },
-  { label: "Industries", href: "/industries" },
+  { label: "Products", href: "/#products" },
+  { label: "Industries", href: "/#industries" },
   { label: "Vision", href: "/vision" },
   { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },

@@ -4,9 +4,11 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { useRef, useEffect, useState } from "react";
+import { GraduationCap, Hotel, Building2, Tractor, Stethoscope, ShoppingBag, Factory, Landmark, CalendarClock, WalletCards, MessagesSquare } from "lucide-react";
 import { RevealText } from "@/components/motion/RevealText";
 import StatusBadge from "@/components/marketing/StatusBadge";
 import HeroCarousel from "@/components/marketing/HeroCarousel";
+import PlatformShowcase from "@/components/marketing/PlatformShowcase";
 
 // ── Scroll Reveal ────────────────────────────────────────────────
 function Reveal({ children, delay = 0 }: { children: React.ReactNode; delay?: number }) {
@@ -45,28 +47,100 @@ function Counter({ end, suffix = "" }: { end: number; suffix?: string }) {
 
 // ── Data ─────────────────────────────────────────────────────────
 const stats = [
-  { value: 40, suffix: "+", label: "Schools onboarded" },
-  { value: 8500, suffix: "+", label: "Students managed" },
-  { value: 1200, suffix: "+", label: "Staff hours saved / mo" },
-  { value: 5, suffix: "", label: "Countries reached" },
+  { value: 1, suffix: "", label: "Unified platform" },
+  { value: 0, suffix: "", label: "Data silos" },
+  { value: 100, suffix: "%", label: "Cloud-based" },
+  { value: 24, suffix: "/7", label: "System availability" },
 ];
 
 const capabilities = [
-  { icon: "🎓", num: "01", title: "Admissions & records", desc: "Manage enrolment, student records, and documentation in one place. Go paperless from day one." },
-  { icon: "📅", num: "02", title: "Attendance & timetabling", desc: "Track attendance in real time and build conflict-free timetables without spreadsheets." },
-  { icon: "💳", num: "03", title: "Finance & billing", desc: "Handle fees, invoicing, and financial reporting for the whole school in one dashboard." },
-  { icon: "💬", num: "04", title: "Parent & staff communication", desc: "Keep parents, teachers, and admin staff on the same page." },
+  { id: "admissions", icon: GraduationCap, title: "Admissions & records", desc: "Manage enrolment, student records, and documentation in one place. Go paperless from day one." },
+  { id: "timetabling", icon: CalendarClock, title: "Attendance & timetabling", desc: "Track attendance in real time and build conflict-free timetables without spreadsheets." },
+  { id: "finance", icon: WalletCards, title: "Finance & billing", desc: "Handle fees, invoicing, and financial reporting for the whole school in one dashboard." },
+  { id: "communication", icon: MessagesSquare, title: "Parent communication", desc: "Keep parents, teachers, and admin staff on the same page with an integrated portal." },
 ];
 
+function InteractiveFeatures() {
+  const [active, setActive] = useState(0);
+
+  return (
+    <div style={{ display: "grid", gridTemplateColumns: "1fr 1.4fr", gap: 48, alignItems: "center", marginTop: 40 }} className="stack-mobile">
+      {/* Left side: Feature List */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+        {capabilities.map((cap, i) => {
+          const isActive = active === i;
+          const Icon = cap.icon;
+          return (
+            <div key={cap.id} onClick={() => setActive(i)}
+              style={{
+                padding: "20px 24px",
+                borderRadius: 16,
+                cursor: "pointer",
+                border: "1px solid",
+                borderColor: isActive ? "rgba(40,120,232,0.2)" : "transparent",
+                background: isActive ? "#fff" : "transparent",
+                boxShadow: isActive ? "0 8px 30px rgba(0,0,0,0.04)" : "none",
+                transition: "all 0.3s ease",
+              }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 16, marginBottom: isActive ? 12 : 0, transition: "margin 0.3s ease" }}>
+                <div style={{
+                  display: "flex", alignItems: "center", justifyContent: "center", width: 44, height: 44, borderRadius: 12,
+                  background: isActive ? "linear-gradient(135deg, #39A8F5, #1A3FD4)" : "rgba(0,0,0,0.04)",
+                  color: isActive ? "#fff" : "#6B7280",
+                  transition: "all 0.3s ease",
+                  flexShrink: 0
+                }}>
+                  <Icon size={22} strokeWidth={isActive ? 2.5 : 2} />
+                </div>
+                <h3 style={{ fontSize: 17, fontWeight: 600, color: isActive ? "#0D1117" : "#4B5563" }}>{cap.title}</h3>
+              </div>
+              <motion.div initial={false} animate={{ height: isActive ? "auto" : 0, opacity: isActive ? 1 : 0 }} style={{ overflow: "hidden" }}>
+                <p style={{ fontSize: 14, color: "#6B7280", lineHeight: 1.6, paddingLeft: 60 }}>{cap.desc}</p>
+              </motion.div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Right side: Mockup Graphic */}
+      <div style={{ position: "relative", width: "100%", aspectRatio: "4/3", background: "#fff", borderRadius: 24, border: "1px solid rgba(0,0,0,0.06)", boxShadow: "0 24px 60px rgba(0,0,0,0.05)", overflow: "hidden" }}>
+        <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 48, background: "#F7F9FC", borderBottom: "1px solid rgba(0,0,0,0.04)", display: "flex", alignItems: "center", padding: "0 20px", gap: 6 }}>
+           <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#E5E7EB" }} />
+           <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#E5E7EB" }} />
+           <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#E5E7EB" }} />
+        </div>
+        <div style={{ padding: 32, paddingTop: 48, display: "flex", alignItems: "center", justifyContent: "center", height: "100%" }}>
+           <motion.div key={active} initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.4 }}>
+             <div style={{ width: 120, height: 120, borderRadius: "50%", background: "linear-gradient(135deg, rgba(57,168,245,0.08), rgba(26,63,212,0.08))", display: "flex", alignItems: "center", justifyContent: "center", margin: "0 auto", marginBottom: 24 }}>
+                {(() => {
+                  const ActiveIcon = capabilities[active].icon;
+                  return <ActiveIcon size={48} color="#2878E8" strokeWidth={1.5} />;
+                })()}
+             </div>
+             <p style={{ textAlign: "center", fontWeight: 600, color: "#0D1117", fontSize: 18 }}>System Module Active</p>
+             <p style={{ textAlign: "center", color: "#6B7280", fontSize: 13, marginTop: 8 }}>{capabilities[active].title} module is ready for configuration.</p>
+             
+             {/* Faux Data Lines */}
+             <div style={{ marginTop: 32, display: "flex", flexDirection: "column", gap: 12, alignItems: "center" }}>
+                <div style={{ width: 180, height: 8, borderRadius: 4, background: "#F3F4F6" }} />
+                <div style={{ width: 140, height: 8, borderRadius: 4, background: "#F3F4F6" }} />
+             </div>
+           </motion.div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const industries = [
-  { name: "Education", icon: "📚", status: "live" as const },
-  { name: "Hospitality", icon: "🏨", status: "in_development" as const },
-  { name: "Real estate", icon: "🏠", status: "planned" as const },
-  { name: "Agriculture", icon: "🌾", status: "planned" as const },
-  { name: "Healthcare", icon: "🏥", status: "planned" as const },
-  { name: "Retail", icon: "🛍️", status: "planned" as const },
-  { name: "Manufacturing", icon: "🏭", status: "planned" as const },
-  { name: "Government", icon: "🏛️", status: "planned" as const },
+  { name: "Education", icon: GraduationCap, status: "live" as const, desc: "Digital infrastructure for modern schools and universities." },
+  { name: "Hospitality", icon: Hotel, status: "in_development" as const, desc: "Seamless property and guest management for hotels." },
+  { name: "Real Estate", icon: Building2, status: "planned" as const, desc: "End-to-end property listings and tenant administration." },
+  { name: "Agriculture", icon: Tractor, status: "planned" as const, desc: "Supply chain tracking and yield reporting for agribusinesses." },
+  { name: "Healthcare", icon: Stethoscope, status: "planned" as const, desc: "Patient records, billing, and scheduling for clinics." },
+  { name: "Retail", icon: ShoppingBag, status: "planned" as const, desc: "Unified inventory and point-of-sale for retail chains." },
+  { name: "Manufacturing", icon: Factory, status: "planned" as const, desc: "Production planning and workforce management." },
+  { name: "Government", icon: Landmark, status: "planned" as const, desc: "Digital permits, secure records, and citizen engagement." },
 ];
 
 const whyPoints = [
@@ -76,13 +150,11 @@ const whyPoints = [
   { num: "04", title: "Long-term vision", desc: "We are building a connected ecosystem of software for Africa's fastest-growing industries." },
 ];
 
-const roadmap = [
-  { year: "2026", item: "School Management Platform", status: "live" as const },
-  { year: "2026", item: "Hospitality Platform", status: "in_development" as const },
-  { year: "2027", item: "Real Estate Platform", status: "planned" as const },
-  { year: "2027", item: "Agriculture Platform", status: "planned" as const },
-  { year: "2027", item: "Healthcare Platform", status: "planned" as const },
-  { year: "2028+", item: "Connected Business Ecosystem", status: "planned" as const },
+const implementationSteps = [
+  { step: "Step 1", item: "Consultation & Discovery", desc: "We analyze your exact operational bottlenecks and requirements." },
+  { step: "Step 2", item: "Customization & Setup", desc: "Tailoring our platform modules specifically to your workflow." },
+  { step: "Step 3", item: "Deployment & Training", desc: "On-site installation and comprehensive staff training." },
+  { step: "Step 4", item: "Ongoing Support", desc: "24/7 technical support and continuous feature updates." },
 ];
 
 export default function HomeClient() {
@@ -160,7 +232,7 @@ export default function HomeClient() {
                   <Counter end={s.value} suffix={s.suffix} />
                 </div>
                 <div style={{ fontSize: 12, color: "#9CA3AF", marginTop: 4 }}>
-                  {s.label} <span style={{ opacity: 0.7, fontStyle: "italic" }}>est.</span>
+                  {s.label}
                 </div>
               </div>
             ))}
@@ -176,71 +248,51 @@ export default function HomeClient() {
         </motion.div>
       </section>
 
-      {/* ═══════════════════════════════════════════ PRODUCT PROOF */}
-      <section className="section-pad-sm" style={{ background: "#F7F9FC", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
-        <div style={{ maxWidth: 1100, margin: "0 auto" }}>
+      {/* ═══════════════════════════════════════════ PRODUCT PROOF (TABBED SHOWCASE) */}
+      <section id="products" className="section-pad-sm" style={{ background: "#F7F9FC", borderBottom: "1px solid rgba(0,0,0,0.06)", overflow: "hidden" }}>
+        <div style={{ maxWidth: 1100, margin: "0 auto", paddingBottom: 60 }}>
           <Reveal>
-            <div style={{ marginBottom: 14 }}><StatusBadge status="live" /></div>
-            <h2 style={{ fontSize: "clamp(26px, 3.5vw, 42px)", fontWeight: 700, marginBottom: 10 }}>
-              School Management Platform
-            </h2>
-            <p style={{ fontSize: 16, color: "#4B5563", marginBottom: 48, maxWidth: 440 }}>
-              An AI-powered platform for everything a school runs on.
-            </p>
-          </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 14 }}>
-            {capabilities.map((cap, i) => (
-              <Reveal key={cap.title} delay={i * 0.07}>
-                <motion.div whileHover={{ y: -3, boxShadow: "0 8px 28px rgba(0,0,0,0.09)" }}
-                  style={{
-                    padding: "24px 20px", borderRadius: 14, background: "#fff",
-                    border: "1px solid rgba(0,0,0,0.07)", position: "relative", overflow: "hidden",
-                    transition: "box-shadow 0.25s",
-                  }}>
-                  {/* Top accent line on hover */}
-                  <div style={{ position: "absolute", top: 0, left: 0, right: 0, height: 2, background: "linear-gradient(90deg, #39A8F5, #1A3FD4)", transform: "scaleX(0)", transformOrigin: "left", transition: "transform 0.3s ease" }}
-                    className="card-top-line" />
-                  <div style={{ position: "absolute", top: 4, right: 16, fontSize: 40, fontWeight: 700, color: "rgba(0,0,0,0.025)", fontFamily: "'Space Grotesk', sans-serif" }}>{cap.num}</div>
-                  <div style={{ fontSize: 26, marginBottom: 14 }}>{cap.icon}</div>
-                  <h3 style={{ fontSize: 15, fontWeight: 600, marginBottom: 8, color: "#0D1117" }}>{cap.title}</h3>
-                  <p style={{ fontSize: 13, color: "#6B7280", lineHeight: 1.65 }}>{cap.desc}</p>
-                </motion.div>
-              </Reveal>
-            ))}
-          </div>
-          <Reveal delay={0.3}>
-            <div style={{ marginTop: 36 }}>
-              <Link href="/products/school-management" style={{ display: "inline-flex", alignItems: "center", gap: 6, padding: "10px 20px", background: "linear-gradient(135deg, #39A8F5, #1A3FD4)", color: "#fff", borderRadius: 10, fontSize: 14, fontWeight: 600, boxShadow: "0 4px 14px rgba(40,120,232,0.3)" }}>
-                See the full platform →
-              </Link>
-            </div>
+            <PlatformShowcase />
           </Reveal>
         </div>
       </section>
 
       {/* ═══════════════════════════════════════════ INDUSTRIES */}
-      <section className="section-pad-sm stack-mobile" style={{ background: "#fff", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
+      <section id="industries" className="section-pad-sm stack-mobile" style={{ background: "#fff", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <Reveal>
             <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#2878E8", marginBottom: 12 }}>Platform Ecosystem</p>
             <h2 style={{ fontSize: "clamp(24px, 3.2vw, 40px)", fontWeight: 700, marginBottom: 10 }}>Every industry. One ecosystem.</h2>
             <p style={{ fontSize: 16, color: "#4B5563", marginBottom: 48, maxWidth: 400 }}>Building platforms for every sector that powers Africa's economy.</p>
           </Reveal>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))", gap: 12 }}>
-            {industries.map((ind, i) => (
-              <Reveal key={ind.name} delay={i * 0.04}>
-                <motion.div whileHover={{ y: -2, boxShadow: "0 6px 20px rgba(0,0,0,0.07)" }}
-                  style={{
-                    padding: "18px 16px", borderRadius: 12, background: ind.status === "live" ? "rgba(57,168,245,0.04)" : "#fff",
-                    border: `1px solid ${ind.status === "live" ? "rgba(57,168,245,0.25)" : "rgba(0,0,0,0.07)"}`,
-                    transition: "box-shadow 0.25s, border-color 0.25s",
-                  }}>
-                  <span style={{ fontSize: 22, display: "block", marginBottom: 10 }}>{ind.icon}</span>
-                  <p style={{ fontSize: 13, fontWeight: 600, marginBottom: 8, color: "#0D1117" }}>{ind.name}</p>
-                  <StatusBadge status={ind.status} size="sm" />
-                </motion.div>
-              </Reveal>
-            ))}
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 16 }}>
+            {industries.map((ind, i) => {
+              const Icon = ind.icon;
+              return (
+                <Reveal key={ind.name} delay={i * 0.04}>
+                  <motion.div whileHover={{ y: -4, boxShadow: "0 12px 30px rgba(0,0,0,0.06)" }}
+                    style={{
+                      padding: "24px", borderRadius: 16, background: "#fff",
+                      border: "1px solid rgba(0,0,0,0.06)",
+                      transition: "box-shadow 0.3s, border-color 0.3s, transform 0.3s",
+                      height: "100%", display: "flex", flexDirection: "column"
+                    }}>
+                    <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", marginBottom: 16 }}>
+                      <div style={{ 
+                        width: 44, height: 44, borderRadius: 12, 
+                        background: "#F3F4F6",
+                        display: "flex", alignItems: "center", justifyContent: "center",
+                        color: "#6B7280"
+                      }}>
+                        <Icon size={22} strokeWidth={2} />
+                      </div>
+                    </div>
+                    <h3 style={{ fontSize: 17, fontWeight: 700, marginBottom: 8, color: "#0D1117" }}>{ind.name}</h3>
+                    <p style={{ fontSize: 14, color: "#6B7280", lineHeight: 1.6, flex: 1 }}>{ind.desc}</p>
+                  </motion.div>
+                </Reveal>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -266,14 +318,14 @@ export default function HomeClient() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════ ROADMAP */}
+      {/* ═══════════════════════════════════════════ IMPLEMENTATION PROCESS */}
       <section className="section-pad-sm stack-mobile" style={{ background: "#fff", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
         <div style={{ maxWidth: 760, margin: "0 auto" }}>
           <Reveal>
-            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#2878E8", marginBottom: 12 }}>Roadmap</p>
-            <h2 style={{ fontSize: "clamp(24px, 3.2vw, 40px)", fontWeight: 700, marginBottom: 14 }}>Our vision</h2>
+            <p style={{ fontSize: 11, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#2878E8", marginBottom: 12 }}>Deployment</p>
+            <h2 style={{ fontSize: "clamp(24px, 3.2vw, 40px)", fontWeight: 700, marginBottom: 14 }}>How we work with you</h2>
             <p style={{ fontSize: 16, color: "#4B5563", lineHeight: 1.7, maxWidth: 520, marginBottom: 56 }}>
-              A future where every organization across Africa can access modern, intelligent software built specifically for their sector.
+              Enterprise software shouldn't be hard to implement. We handle the heavy lifting so your team can focus on operations.
             </p>
           </Reveal>
 
@@ -281,19 +333,19 @@ export default function HomeClient() {
             <div style={{ position: "absolute", left: 70, top: 0, bottom: 0, width: 1, background: "rgba(0,0,0,0.08)" }}>
               <motion.div style={{ position: "absolute", top: 0, left: 0, right: 0, background: "linear-gradient(to bottom, #39A8F5, rgba(26,63,212,0.2))", height: lineH }} />
             </div>
-            {roadmap.map((item, i) => (
+            {implementationSteps.map((item, i) => (
               <Reveal key={i} delay={i * 0.07}>
-                <div style={{ display: "flex", alignItems: "flex-start", paddingBottom: 28, position: "relative" }}>
-                  <span style={{ position: "absolute", left: -96, fontSize: 11, fontWeight: 600, color: "#9CA3AF", fontVariantNumeric: "tabular-nums", paddingTop: 3, width: 56, textAlign: "right" }}>{item.year}</span>
+                <div style={{ display: "flex", alignItems: "flex-start", paddingBottom: 32, position: "relative" }}>
+                  <span style={{ position: "absolute", left: -96, fontSize: 11, fontWeight: 700, color: "#9CA3AF", fontVariantNumeric: "tabular-nums", paddingTop: 3, width: 56, textAlign: "right", letterSpacing: "0.05em" }}>{item.step.toUpperCase()}</span>
                   <div style={{
                     position: "absolute", left: -25, top: 5, width: 8, height: 8, borderRadius: "50%",
-                    background: item.status === "live" ? "#16A34A" : item.status === "in_development" ? "#2878E8" : "#D1D5DB",
-                    boxShadow: item.status === "live" ? "0 0 0 3px rgba(22,163,74,0.15)" : item.status === "in_development" ? "0 0 0 3px rgba(40,120,232,0.15)" : "none",
-                    border: `2px solid ${item.status === "live" ? "#16A34A" : item.status === "in_development" ? "#2878E8" : "#E5E7EB"}`,
+                    background: "#2878E8",
+                    boxShadow: "0 0 0 3px rgba(40,120,232,0.15)",
+                    border: "2px solid #2878E8",
                   }} />
-                  <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-                    <span style={{ fontSize: 14, fontWeight: 500, color: "#0D1117" }}>{item.item}</span>
-                    <StatusBadge status={item.status} size="sm" />
+                  <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                    <span style={{ fontSize: 15, fontWeight: 700, color: "#0D1117" }}>{item.item}</span>
+                    <span style={{ fontSize: 14, color: "#6B7280", lineHeight: 1.5, paddingRight: 20 }}>{item.desc}</span>
                   </div>
                 </div>
               </Reveal>
@@ -301,10 +353,10 @@ export default function HomeClient() {
           </div>
 
           <Reveal delay={0.3}>
-            <Link href="/vision" style={{ fontSize: 14, fontWeight: 500, color: "#6B7280", transition: "color 0.2s", display: "inline-block", marginTop: 20 }}
+            <Link href="/contact" style={{ fontSize: 14, fontWeight: 500, color: "#6B7280", transition: "color 0.2s", display: "inline-block", marginTop: 10 }}
               onMouseEnter={(e) => { e.currentTarget.style.color = "#2878E8"; }}
               onMouseLeave={(e) => { e.currentTarget.style.color = "#6B7280"; }}>
-              Read the full vision →
+              Book a consultation →
             </Link>
           </Reveal>
         </div>
