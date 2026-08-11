@@ -36,8 +36,13 @@ export default function VisionPage() {
         </div>
       </section>
 
-      <section className="section-pad-sm" style={{ background: "#F7F9FC" }}>
-        <div style={{ maxWidth: 760, margin: "0 auto" }}>
+      <section className="section-pad-sm" style={{ background: "#F8FAFC", position: "relative", overflow: "hidden" }}>
+        {/* Subtle glowing orbs */}
+        <div style={{ position: "absolute", top: "10%", left: "-10%", width: 500, height: 500, background: "radial-gradient(circle, rgba(14,91,255,0.05) 0%, transparent 70%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", bottom: "20%", right: "-10%", width: 600, height: 600, background: "radial-gradient(circle, rgba(22,163,74,0.03) 0%, transparent 70%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", top: "50%", left: "30%", width: 800, height: 800, background: "radial-gradient(circle, rgba(14,91,255,0.03) 0%, transparent 70%)", pointerEvents: "none", transform: "translate(-50%, -50%)" }} />
+        
+        <div style={{ maxWidth: 760, margin: "0 auto", position: "relative", zIndex: 2 }}>
           <Reveal>
             <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#2878E8", marginBottom: 16 }}>Roadmap</p>
             <h2 style={{ fontSize: "clamp(28px, 3vw, 42px)", fontWeight: 700, letterSpacing: "-0.03em", marginBottom: 72, fontFamily: "'Space Grotesk', sans-serif" }}>

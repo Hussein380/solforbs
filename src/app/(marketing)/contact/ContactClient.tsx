@@ -32,11 +32,16 @@ const inputStyle: React.CSSProperties = {
 export default function ContactClient() {
   const [formData, setFormData] = useState({ name: "", email: "", organization: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // In the future, this will trigger a Server Action or API route to send the email.
-    setSubmitted(true);
+    setIsSubmitting(true);
+    // Simulate a network request
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setSubmitted(true);
+    }, 1500);
   };
 
   return (
@@ -175,14 +180,23 @@ export default function ContactClient() {
                     whileTap={{ scale: 0.98 }}
                     type="submit" 
                     id="contact-submit" 
+                    disabled={isSubmitting}
                     style={{
                       width: "100%", padding: "16px 28px", marginTop: 8,
                       background: "linear-gradient(135deg, #0E5BFF, #1AA8FF)", color: "#fff",
                       borderRadius: 12, fontSize: 16, fontWeight: 700, border: "none",
-                      cursor: "pointer", boxShadow: "0 8px 20px rgba(14,91,255,0.25)",
+                      cursor: isSubmitting ? "wait" : "pointer", 
+                      boxShadow: "0 8px 20px rgba(14,91,255,0.25)",
+                      opacity: isSubmitting ? 0.7 : 1,
+                      display: "flex", justifyContent: "center", alignItems: "center", gap: 8
                     }}
                   >
-                    Send message
+                    {isSubmitting ? (
+                      <>
+                        <motion.div animate={{ rotate: 360 }} transition={{ repeat: Infinity, duration: 1, ease: "linear" }} style={{ width: 18, height: 18, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%" }} />
+                        Sending...
+                      </>
+                    ) : "Send message"}
                   </motion.button>
                 </form>
               )}

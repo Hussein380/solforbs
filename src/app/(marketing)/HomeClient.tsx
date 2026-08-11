@@ -157,7 +157,7 @@ const implementationSteps = [
   { step: "Step 4", item: "Ongoing Support", desc: "24/7 technical support and continuous feature updates." },
 ];
 
-export default function HomeClient() {
+export default function HomeClient({ projects = [] }: { projects?: any[] }) {
   const heroRef = useRef<HTMLElement>(null);
   const { scrollYProgress } = useScroll({ target: heroRef, offset: ["start start", "end start"] });
   const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
@@ -248,11 +248,13 @@ export default function HomeClient() {
         </motion.div>
       </section>
 
+
+
       {/* ═══════════════════════════════════════════ PRODUCT PROOF (TABBED SHOWCASE) */}
       <section id="products" className="section-pad-sm" style={{ background: "#F7F9FC", borderBottom: "1px solid rgba(0,0,0,0.06)", overflow: "hidden" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto", paddingBottom: 60 }}>
           <Reveal>
-            <PlatformShowcase />
+            <PlatformShowcase projects={projects} />
           </Reveal>
         </div>
       </section>
