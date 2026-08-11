@@ -1,18 +1,21 @@
 import Navbar from "@/components/marketing/Navbar";
 import Footer from "@/components/marketing/Footer";
+import { getProjects } from "@/lib/actions/project.actions";
 
-export default function MarketingLayout({
+export default async function MarketingLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const projects = await getProjects();
+
   return (
     <>
-      <Navbar />
+      <Navbar projects={projects} />
       <main style={{ flex: 1 }}>
         {children}
       </main>
-      <Footer />
+      <Footer projects={projects} />
     </>
   );
 }

@@ -30,6 +30,7 @@ export default function ProjectFeatureCarousel({ title, description, link, video
   const [isHovered, setIsHovered] = useState(false);
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null);
   const [expandedTextId, setExpandedTextId] = useState<string | null>(null);
+  const [videoModal, setVideoModal] = useState(false);
 
   useEffect(() => {
     if (isHovered) return;
@@ -217,12 +218,27 @@ export default function ProjectFeatureCarousel({ title, description, link, video
                   {/* Spacer to push elements to bottom */}
                   <div style={{ flex: 1 }} />
 
-                  {/* Live URL Button (Cover Card) */}
-                  {screen.link && (
-                    <div style={{ flexShrink: 0 }}>
-                      <a href={screen.link} target="_blank" rel="noopener noreferrer" style={{ display: "block", textAlign: "center", padding: "10px", background: "#0D1117", color: "#fff", borderRadius: 8, fontSize: 13, fontWeight: 700, textDecoration: "none" }}>
-                        Visit Live Platform ↗
-                      </a>
+                  {/* Live URL & Video Buttons */}
+                  {(screen.link || (videoUrl && screen.id.startsWith("hero-"))) && (
+                    <div style={{ display: "flex", gap: 12, marginTop: 12, flexShrink: 0 }}>
+                      {screen.link && (
+                        <a href={screen.link} target="_blank" rel="noopener noreferrer" style={{ flex: 1, textAlign: "center", padding: "10px", background: "#0D1117", color: "#fff", borderRadius: 8, fontSize: 13, fontWeight: 700, textDecoration: "none" }}>
+                          Live Site ↗
+                        </a>
+                      )}
+                      {videoUrl && screen.id.startsWith("hero-") && (
+                        <button 
+                          onClick={(e) => {
+                            if (isCenter) {
+                              e.stopPropagation();
+                              setVideoModal(true);
+                            }
+                          }}
+                          style={{ flex: 1, padding: "10px", background: "rgba(14,91,255,0.1)", color: "#0E5BFF", border: "1px solid rgba(14,91,255,0.2)", borderRadius: 8, fontSize: 13, fontWeight: 700, cursor: isCenter ? "pointer" : "default" }}
+                        >
+                          ▶ Watch Demo
+                        </button>
+                      )}
                     </div>
                   )}
 
@@ -316,6 +332,32 @@ export default function ProjectFeatureCarousel({ title, description, link, video
             alt="Fullscreen Preview" 
             style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain", borderRadius: 12, boxShadow: "0 24px 60px rgba(0,0,0,0.5)" }} 
           />
+        </div>
+      )}
+
+      {/* Cinematic Video Modal */}
+      {videoModal && videoUrl && (
+        <div 
+          style={{
+            position: "fixed", top: 0, left: 0, right: 0, bottom: 0, 
+            background: "rgba(0,0,0,0.9)", zIndex: 99999, display: "flex", alignItems: "center", justifyContent: "center",
+            padding: 40, backdropFilter: "blur(20px)"
+          }}
+          onClick={() => setVideoModal(false)}
+        >
+          <button 
+            style={{ position: "absolute", top: 24, right: 32, background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)", color: "#fff", width: 48, height: 48, borderRadius: "50%", fontSize: 24, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", transition: "background 0.3s" }}
+            onClick={() => setVideoModal(false)}
+          >×</button>
+          
+          <div style={{ width: "100%", maxWidth: 1000, aspectRatio: "16/9", background: "#000", borderRadius: 24, overflow: "hidden", boxShadow: "0 0 100px rgba(14,91,255,0.2)" }} onClick={(e) => e.stopPropagation()}>
+            <iframe 
+              src={videoUrl.includes("youtube.com/watch?v=") ? videoUrl.replace("watch?v=", "embed/") : videoUrl} 
+              style={{ width: "100%", height: "100%", border: "none" }} 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowFullScreen
+            />
+          </div>
         </div>
       )}
     </div>

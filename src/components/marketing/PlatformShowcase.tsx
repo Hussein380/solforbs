@@ -1,13 +1,13 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ProjectFeatureCarousel from "./ProjectFeatureCarousel";
+import { ArrowRight, Globe } from "lucide-react";
+import Link from "next/link";
 
 export default function PlatformShowcase({ projects = [] }: { projects?: any[] }) {
-  const [activeTab, setActiveTab] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const [userInteracted, setUserInteracted] = useState(false);
+  const [activeFilter, setActiveFilter] = useState("All");
 
   // If no projects are loaded yet (e.g. empty database), show a fallback
   if (!projects || projects.length === 0) {
@@ -19,26 +19,28 @@ export default function PlatformShowcase({ projects = [] }: { projects?: any[] }
     );
   }
 
-  // Filter only 'live' or 'in_development' projects for the showcase if desired, or just show all.
-  // The user requested: "only appear what we added". So we show all projects passed from DB.
-  const displayProjects = projects.filter(p => p.status === 'live'); // Or don't filter if you want to show all
+  // Extract unique industries for the filters
+  const industries = ["All", ...Array.from(new Set(projects.map((p: any) => p.industry)))];
+  
+  // Filter projects based on the active tab
+  const filteredProjects = activeFilter === "All" 
+    ? projects 
+    : projects.filter((p: any) => p.industry === activeFilter);
 
-  // Map the DB projects into the shape expected by the UI. 
-  // We now have rich feature objects straight from the DB!
-  const formattedProjects = displayProjects.map(proj => {
+  // Map the filtered database projects into the shape expected by the UI.
+  const formattedProjects = filteredProjects.map((proj: any) => {
     
     // Map the database features to the carousel's expected shape.
     const mappedFeatures = proj.features && proj.features.length > 0 
       ? proj.features.map((f: any, i: number) => ({
           id: `f-${proj.slug}-${i+1}`,
-          industry: f.subtitle, // the frontend expects 'industry' as the subtitle label
+          industry: f.subtitle,
           title: f.title,
           desc: f.desc,
           image: f.image
         }))
       : []; 
       
-    // Automatically create a "Cover Card" for the project itself
     const coverCard = {
       id: `hero-${proj.slug}`,
       industry: proj.industry,
@@ -49,7 +51,6 @@ export default function PlatformShowcase({ projects = [] }: { projects?: any[] }
       link: proj.subdomain ? `https://${proj.subdomain}` : proj.liveUrl ? proj.liveUrl : null
     };
 
-    // Map the gallery images into Carousel Cards
     const galleryCards = proj.gallery && proj.gallery.length > 0 
       ? proj.gallery.map((img: any, i: number) => ({
           id: `gallery-${proj.slug}-${i}`,
@@ -61,7 +62,6 @@ export default function PlatformShowcase({ projects = [] }: { projects?: any[] }
         }))
       : [];
 
-    // Combine the cover card, the dynamic features, and the gallery screenshots into the carousel
     const finalFeatures = [coverCard, ...mappedFeatures, ...galleryCards].slice(0, 8);
 
     return {
@@ -76,96 +76,98 @@ export default function PlatformShowcase({ projects = [] }: { projects?: any[] }
     };
   });
 
-  useEffect(() => {
-    if (isHovered || userInteracted || formattedProjects.length === 0) return;
-    const timer = setInterval(() => {
-      setActiveTab((prev) => (prev + 1) % formattedProjects.length);
-    }, 4500);
-    return () => clearInterval(timer);
-  }, [isHovered, userInteracted, formattedProjects.length]);
-
-  if (formattedProjects.length === 0) return null;
-
   return (
-    <div 
-      style={{ display: "flex", flexDirection: "column", gap: 32 }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <div style={{ display: "flex", flexDirection: "column", gap: 32 }}>
       
       {/* Section Header */}
       <div style={{ textAlign: "center", marginBottom: 10 }}>
         <h2 style={{ fontSize: "clamp(28px, 4vw, 46px)", fontWeight: 800, color: "#0D1117", letterSpacing: "-0.02em" }}>
           Products
         </h2>
-        <p style={{ fontSize: 16, color: "#6B7280", marginTop: 8 }}>
-          Explore our suite of intelligent operating systems.
-        </p>
-      </div>
-
-      {/* Tabs Row */}
-      <div style={{ display: "flex", justifyContent: "center", width: "100%", padding: "0 10px" }}>
-        <div 
-          style={{ 
-            display: "flex", gap: 6, overflowX: "auto", padding: 6, background: "#F3F4F6", 
-            borderRadius: 100, maxWidth: "100%", scrollbarWidth: "none",
-            border: "1px solid rgba(0,0,0,0.04)"
-          }}
-          className="hide-scrollbar"
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6, delay: 0.2 }}
+          style={{ fontSize: "clamp(18px, 2vw, 22px)", color: "#94A3B8", maxWidth: 600, margin: "8px auto 0", lineHeight: 1.6 }}
         >
-          {formattedProjects.map((proj, i) => {
-            const isActive = activeTab === i;
-            return (
-              <button 
-                key={proj.id} 
-                onClick={() => {
-                  setUserInteracted(true);
-                  setActiveTab(i);
-                }}
-                style={{
-                  padding: "10px 20px",
-                  borderRadius: 100,
-                  border: "none",
-                  background: isActive ? "linear-gradient(135deg, #39A8F5, #1A3FD4)" : "transparent",
-                  color: isActive ? "#fff" : "#6B7280",
-                  fontSize: 14,
-                  fontWeight: 700,
-                  cursor: "pointer",
-                  boxShadow: isActive ? "0 6px 16px rgba(40,120,232,0.25)" : "none",
-                  transition: "all 0.3s ease",
-                  whiteSpace: "nowrap",
-                  letterSpacing: "0.02em"
-                }}
-                onMouseEnter={(e) => { if(!isActive) e.currentTarget.style.color = "#0D1117"; }}
-                onMouseLeave={(e) => { if(!isActive) e.currentTarget.style.color = "#6B7280"; }}
-              >
-                {proj.tab}
-              </button>
-            )
-          })}
-        </div>
+          Explore our suite of enterprise-grade applications, custom-built for specific industries.
+        </motion.div>
       </div>
 
-      {/* Active Carousel Content */}
-      <div style={{ minHeight: 650, position: "relative" }}>
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, y: 10, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.98 }}
-            transition={{ duration: 0.4 }}
-          >
-            <ProjectFeatureCarousel 
-              title={formattedProjects[activeTab].title}
-              description={formattedProjects[activeTab].description}
-              link={formattedProjects[activeTab].link}
-              videoUrl={formattedProjects[activeTab].videoUrl}
-              status={formattedProjects[activeTab].status}
-              features={formattedProjects[activeTab].features}
-              onInteract={() => setUserInteracted(true)}
-            />
-          </motion.div>
+      {/* CATEGORY FILTERS */}
+      {industries.length > 2 && (
+        <div style={{ display: "flex", justifyContent: "center", marginBottom: 60, flexWrap: "wrap", gap: 12, padding: "0 24px" }}>
+          {industries.map((industry: any) => (
+            <button
+              key={industry}
+              onClick={() => setActiveFilter(industry)}
+              style={{
+                position: "relative", padding: "10px 24px", fontSize: 14, fontWeight: 600, 
+                color: activeFilter === industry ? "#0D1117" : "#64748B", background: "transparent", 
+                border: "none", cursor: "pointer", transition: "color 0.3s ease", zIndex: 1
+              }}
+            >
+              {activeFilter === industry && (
+                <motion.div
+                  layoutId="activeFilterBg"
+                  style={{ position: "absolute", inset: 0, background: "#F1F5F9", borderRadius: 30, zIndex: -1 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                />
+              )}
+              {industry}
+            </button>
+          ))}
+        </div>
+      )}
+
+      {/* SHOWCASE CAROUSELS */}
+      <div style={{ display: "flex", flexDirection: "column", gap: 100 }}>
+        <AnimatePresence mode="popLayout">
+          {formattedProjects.map((project: any, idx: number) => (
+            <motion.div 
+              key={project.id}
+              layout
+              initial={{ opacity: 0, y: 40 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, scale: 0.95 }} transition={{ duration: 0.5 }}
+              style={{ position: "relative" }}
+            >
+              <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", marginBottom: 40, padding: "0 20px" }}>
+                <div>
+                  <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 12 }}>
+                    <h3 style={{ fontSize: "clamp(24px, 3vw, 36px)", fontWeight: 800, color: "#0D1117", letterSpacing: "-0.02em" }}>
+                      {project.title}
+                    </h3>
+                    <div style={{ 
+                      padding: "4px 12px", borderRadius: 20, fontSize: 12, fontWeight: 700, textTransform: "uppercase",
+                      background: project.status === 'live' ? "#DCFCE7" : "#FEF9C3",
+                      color: project.status === 'live' ? "#166534" : "#854D0E"
+                    }}>
+                      {project.status.replace('_', ' ')}
+                    </div>
+                  </div>
+                  <p style={{ fontSize: 18, color: "#4B5563", maxWidth: 600, lineHeight: 1.6 }}>
+                    {project.description}
+                  </p>
+                </div>
+                
+                {project.link !== "#" && (
+                  <a 
+                    href={project.link} target="_blank" rel="noopener noreferrer"
+                    style={{ display: "flex", alignItems: "center", gap: 8, padding: "12px 24px", background: "#0D1117", color: "#fff", borderRadius: 30, fontSize: 14, fontWeight: 700, textDecoration: "none" }}
+                  >
+                    Explore {project.title} <ArrowRight size={16} />
+                  </a>
+                )}
+              </div>
+
+              <ProjectFeatureCarousel 
+                title={project.title}
+                description={project.description}
+                link={project.link === "#" ? undefined : project.link}
+                videoUrl={project.videoUrl}
+                status={project.status}
+                features={project.features}
+                onInteract={() => {}}
+              />
+            </motion.div>
+          ))}
         </AnimatePresence>
       </div>
     </div>
