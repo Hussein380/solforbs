@@ -49,15 +49,27 @@ export default function PlatformShowcase({ projects = [] }: { projects?: any[] }
       link: proj.subdomain ? `https://${proj.subdomain}` : proj.liveUrl ? proj.liveUrl : null
     };
 
-    // Combine the cover card with the features (max 5 cards total so the 3D coverflow doesn't get overcrowded)
-    const finalFeatures = [coverCard, ...mappedFeatures].slice(0, 5);
+    // Map the gallery images into Carousel Cards
+    const galleryCards = proj.gallery && proj.gallery.length > 0 
+      ? proj.gallery.map((img: any, i: number) => ({
+          id: `gallery-${proj.slug}-${i}`,
+          industry: "INTERFACE",
+          title: "Platform Preview",
+          desc: "A screenshot of the platform interface in action.",
+          image: img.url,
+          subFeatures: []
+        }))
+      : [];
+
+    // Combine the cover card, the dynamic features, and the gallery screenshots into the carousel
+    const finalFeatures = [coverCard, ...mappedFeatures, ...galleryCards].slice(0, 8);
 
     return {
       id: proj.slug,
       tab: proj.industry,
       title: proj.name,
       description: proj.summary,
-      link: proj.subdomain ? `https://${proj.subdomain}` : proj.liveUrl ? proj.liveUrl : `/products/${proj.slug}`,
+      link: proj.subdomain ? `https://${proj.subdomain}` : proj.liveUrl ? proj.liveUrl : "#",
       videoUrl: proj.videoUrl,
       status: proj.status,
       features: finalFeatures

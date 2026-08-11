@@ -101,3 +101,4 @@ export async function updateProject(id: string, data: any) {
     return { success: false, error: error.message };
   }
 }
+
