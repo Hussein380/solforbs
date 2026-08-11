@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Mail, Phone, Smartphone, MessageCircle, Briefcase, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 import { Reveal } from "@/components/motion/Reveal";
+import { submitContactForm } from "@/lib/actions/contact.actions";
 
 const contactItems = [
   { icon: Mail, label: "Email", value: "info@solforbs.com", href: "mailto:info@solforbs.com" },
@@ -33,15 +34,25 @@ export default function ContactClient() {
   const [formData, setFormData] = useState({ name: "", email: "", organization: "", message: "" });
   const [submitted, setSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate a network request
-    setTimeout(() => {
+    setErrorMsg(null);
+    
+    try {
+      const result = await submitContactForm(formData);
+      if (result.success) {
+        setSubmitted(true);
+      } else {
+        setErrorMsg(result.error || "Something went wrong.");
+      }
+    } catch (err: any) {
+      setErrorMsg("Failed to connect to the server.");
+    } finally {
       setIsSubmitting(false);
-      setSubmitted(true);
-    }, 1500);
+    }
   };
 
   return (
@@ -174,6 +185,12 @@ export default function ContactClient() {
                       onFocus={(e) => { e.currentTarget.style.borderColor = "#0E5BFF"; e.currentTarget.style.background = "#fff"; e.currentTarget.style.boxShadow = "0 0 0 4px rgba(14,91,255,0.1)"; }}
                       onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(0,0,0,0.06)"; e.currentTarget.style.background = "#F8FAFC"; e.currentTarget.style.boxShadow = "inset 0 2px 4px rgba(0,0,0,0.01)"; }} />
                   </div>
+
+                  {errorMsg && (
+                    <div style={{ color: "#EF4444", fontSize: 14, fontWeight: 600, padding: "12px", background: "rgba(239,68,68,0.1)", borderRadius: 8 }}>
+                      {errorMsg}
+                    </div>
+                  )}
 
                   <motion.button 
                     whileHover={{ scale: 1.02 }}

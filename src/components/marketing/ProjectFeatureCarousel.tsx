@@ -196,7 +196,8 @@ export default function ProjectFeatureCarousel({ title, description, link, video
                   
                   <p style={{ 
                     fontSize: 14, color: "#4B5563", lineHeight: 1.6, margin: 0,
-                    display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden"
+                    display: "-webkit-box", WebkitLineClamp: 3, WebkitBoxOrient: "vertical", overflow: "hidden",
+                    flexShrink: 0
                   }}>
                     {screen.desc}
                   </p>
