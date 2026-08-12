@@ -34,9 +34,7 @@ export default function AdminLayout({
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <Link href="/" style={{ fontSize: 13, color: "#64748B", textDecoration: "none" }}>
             View Site ↗
-          </Link>
-          <UserButton afterSignOutUrl="/" />
-        </div>
+          <UserButton />
       </header>
 
       {/* Admin Content */}

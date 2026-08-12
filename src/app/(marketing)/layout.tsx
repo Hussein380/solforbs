@@ -14,8 +14,6 @@ export default async function MarketingLayout({
       <Navbar projects={projects} />
       <main style={{ flex: 1 }}>
         {children}
-      </main>
-      <Footer projects={projects} />
-    </>
+      <Footer />
   );
 }

@@ -190,7 +190,7 @@ export default function EditProjectForm({ project }: { project: any }) {
             </button>
           </div>
           
-          {formData.features.map((feature, index) => (
+          {formData.features.map((feature: any, index: number) => (
             <div key={index} style={{ background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 12, padding: 20, position: "relative" }}>
               <button type="button" onClick={() => removeFeature(index)} style={{ position: "absolute", top: 16, right: 16, background: "transparent", border: "none", color: "#EF4444", cursor: "pointer" }}>
                 <Trash2 size={18} />
@@ -263,7 +263,7 @@ export default function EditProjectForm({ project }: { project: any }) {
             <div>
               <p style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>Gallery Screenshots (Bulk Upload Supported)</p>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 12 }}>
-                {formData.gallery.map((img, i) => (
+                {formData.gallery.map((img: any, i: number) => (
                   <div key={i} style={{ position: "relative" }}>
                     <img src={img.url} alt="Gallery" style={{ height: 100, width: 140, objectFit: "cover", borderRadius: 8, border: "1px solid #E2E8F0" }} />
                     <button type="button" onClick={() => {
