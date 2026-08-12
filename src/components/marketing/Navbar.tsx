@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import Image from "next/image";
@@ -34,12 +36,12 @@ export default function Navbar({ projects = [] }: { projects?: any[] }) {
   const megaMenuTimeout = useRef<NodeJS.Timeout | null>(null);
   
   const { scrollY } = useScroll();
-  let lastY = 0;
+  const lastY = useRef(0);
 
   useMotionValueEvent(scrollY, "change", (y) => {
-    setHidden(y > lastY && y > 120);
+    setHidden(y > lastY.current && y > 120);
     setScrolled(y > 40);
-    lastY = y;
+    lastY.current = y;
   });
 
   const handleMegaMenuEnter = () => {

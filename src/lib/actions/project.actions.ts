@@ -2,16 +2,18 @@
 
 import connectToDatabase from "@/lib/db";
 import Project from "@/models/Project";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, unstable_noStore as noStore } from "next/cache";
+import { IProject } from "@/types/project";
 
 export async function getProjects() {
+  noStore();
   try {
     await connectToDatabase();
     // Return lean documents so they can be passed to client components
     const projects = await Project.find().sort({ sortOrder: 1 }).lean();
     
     // Convert ObjectIds to strings to avoid Next.js serialization errors
-    return projects.map((project: any) => {
+    return projects.map((project: Record<string, unknown>): IProject => {
       project._id = project._id.toString();
       if (project.createdAt) project.createdAt = project.createdAt.toISOString();
       if (project.updatedAt) project.updatedAt = project.updatedAt.toISOString();
@@ -25,6 +27,7 @@ export async function getProjects() {
 }
 
 export async function getProjectBySlug(slug: string) {
+  noStore();
   try {
     await connectToDatabase();
     const project = await Project.findOne({ slug }).lean();
@@ -42,6 +45,7 @@ export async function getProjectBySlug(slug: string) {
 }
 
 export async function getFeaturedProject() {
+  noStore();
   try {
     await connectToDatabase();
     const project = await Project.findOne({ featured: true }).lean();
@@ -58,20 +62,21 @@ export async function getFeaturedProject() {
   }
 }
 
-export async function createProject(data: any) {
+export async function createProject(data: Partial<IProject>) {
   try {
     await connectToDatabase();
     const newProject = await Project.create(data);
     revalidatePath("/");
     revalidatePath("/admin/projects");
     return { success: true, id: newProject._id.toString() };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Failed to create project:", error);
-    return { success: false, error: error.message };
+    return { success: false, error: error instanceof Error ? error.message : String(error) };
   }
 }
 
 export async function getProjectById(id: string) {
+  noStore();
   try {
     await connectToDatabase();
     const project = await Project.findById(id).lean();
@@ -89,16 +94,28 @@ export async function getProjectById(id: string) {
   }
 }
 
-export async function updateProject(id: string, data: any) {
+export async function updateProject(id: string, data: Partial<IProject>) {
   try {
     await connectToDatabase();
     await Project.findByIdAndUpdate(id, data);
     revalidatePath("/");
     revalidatePath("/admin/projects");
     return { success: true };
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error("Failed to update project:", error);
-    return { success: false, error: error.message };
+    return { success: false, error: error instanceof Error ? error.message : String(error) };
   }
 }
 
+export async function deleteProject(id: string) {
+  try {
+    await connectToDatabase();
+    await Project.findByIdAndDelete(id);
+    revalidatePath("/");
+    revalidatePath("/admin/projects");
+    return { success: true };
+  } catch (error: unknown) {
+    console.error("Failed to delete project:", error);
+    return { success: false, error: error instanceof Error ? error.message : String(error) };
+  }
+}

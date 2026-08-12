@@ -113,7 +113,7 @@ export default function Footer() {
             <Image src="/logo.png" alt="Solforbs" width={110} height={32}
               style={{ objectFit: "contain", height: 32, width: "auto", marginBottom: 20 }} />
             <p style={{ fontSize: 14, color: "#475569", lineHeight: 1.6, marginBottom: 20 }}>
-              Building intelligent software platforms for every industry that powers Africa's economy.
+              Building intelligent software platforms for every industry that powers Africa&apos;s economy.
             </p>
             <a href="mailto:info@solforbs.com" style={{ fontSize: 14, color: "#0E5BFF", fontWeight: 600, display: "inline-block" }}>info@solforbs.com</a>
           </div>
@@ -142,7 +142,9 @@ export default function Footer() {
 
         {/* Legal row */}
         <div style={{ marginTop: 80, paddingTop: 32, borderTop: "1px solid rgba(0,0,0,0.06)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 20 }}>
-          <p style={{ fontSize: 13, color: "#64748B" }}>© {year} Solforbs Inc. All rights reserved.</p>
+          <div className="text-slate-400 text-sm mb-4 md:mb-0">
+            &copy; {new Date().getFullYear()} Solforbs. All rights reserved. Let&apos;s build the future together.
+          </div>
           <div style={{ display: "flex", gap: 24 }}>
             {["Privacy Policy", "Terms of Service", "Cookie Policy"].map((item) => (
               <Link key={item} href="#"

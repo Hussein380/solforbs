@@ -29,7 +29,7 @@ export default function HeroCards() {
           <div style={{ width: 36, height: 36, borderRadius: 10, background: "rgba(40,120,232,0.1)", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 18 }}>📚</div>
           <div>
             <p style={{ fontSize: 13, fontWeight: 600, color: "#0D1117" }}>Education</p>
-            <p style={{ fontSize: 11, color: "#6B7280" }}>Today's Attendance</p>
+            <p style={{ fontSize: 11, color: "#6B7280" }}>Today&apos;s Attendance</p>
           </div>
         </div>
         <div style={{ display: "flex", alignItems: "flex-end", gap: 12 }}>

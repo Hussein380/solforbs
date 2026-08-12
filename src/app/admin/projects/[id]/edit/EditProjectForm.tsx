@@ -12,7 +12,9 @@ const INDUSTRIES = [
   "Agriculture", "Healthcare", "Manufacturing", "Government"
 ];
 
-export default function EditProjectForm({ project }: { project: any }) {
+import { IProject } from "@/types/project";
+
+export default function EditProjectForm({ project }: { project: IProject | Record<string, unknown> }) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
@@ -190,7 +192,7 @@ export default function EditProjectForm({ project }: { project: any }) {
             </button>
           </div>
           
-          {formData.features.map((feature: any, index: number) => (
+          {formData.features.map((feature: Record<string, string>, index: number) => (
             <div key={index} style={{ background: "#F8FAFC", border: "1px solid #E2E8F0", borderRadius: 12, padding: 20, position: "relative" }}>
               <button type="button" onClick={() => removeFeature(index)} style={{ position: "absolute", top: 16, right: 16, background: "transparent", border: "none", color: "#EF4444", cursor: "pointer" }}>
                 <Trash2 size={18} />
@@ -219,7 +221,7 @@ export default function EditProjectForm({ project }: { project: any }) {
                 {feature.image && (
                   <img src={feature.image} alt="Feature" style={{ height: 80, objectFit: "cover", borderRadius: 6, marginBottom: 8 }} />
                 )}
-                <CldUploadWidget uploadPreset="ml_default" onSuccess={(result: any) => updateFeature(index, "image", result.info.secure_url)}>
+                <CldUploadWidget uploadPreset="ml_default" onSuccess={(result: Record<string, unknown>) => updateFeature(index, "image", (result.info as Record<string, string>).secure_url)}>
                   {({ open }) => (
                     <button type="button" onClick={() => open()} style={{ padding: "8px 16px", background: "#E2E8F0", borderRadius: 6, border: "none", cursor: "pointer", fontSize: 13, fontWeight: 600, alignSelf: "flex-start" }}>
                       Upload Feature Image
@@ -232,7 +234,7 @@ export default function EditProjectForm({ project }: { project: any }) {
           
           {formData.features.length === 0 && (
             <div style={{ textAlign: "center", padding: 30, background: "#F8FAFC", borderRadius: 12, border: "1px dashed #CBD5E1", color: "#64748B" }}>
-              No features added. Click "Add Feature" to create carousel cards.
+              No features added. Click &quot;Add Feature&quot; to create carousel cards.
             </div>
           )}
         </div>
@@ -247,8 +249,8 @@ export default function EditProjectForm({ project }: { project: any }) {
               {formData.heroImageUrl && (
                 <img src={formData.heroImageUrl} alt="Hero" style={{ height: 140, objectFit: "cover", borderRadius: 8, marginBottom: 12, border: "1px solid #E2E8F0" }} />
               )}
-              <CldUploadWidget uploadPreset="ml_default" onSuccess={(result: any) => {
-                setFormData(prev => ({ ...prev, heroImageUrl: result.info.secure_url }))
+              <CldUploadWidget uploadPreset="ml_default" onSuccess={(result: Record<string, unknown>) => {
+                setFormData(prev => ({ ...prev, heroImageUrl: (result.info as Record<string, string>).secure_url }))
               }}>
                 {({ open }) => (
                   <button type="button" onClick={() => open()} style={{ padding: "8px 16px", background: "#E2E8F0", borderRadius: 6, border: "none", cursor: "pointer", fontSize: 13, fontWeight: 600 }}>
@@ -263,7 +265,7 @@ export default function EditProjectForm({ project }: { project: any }) {
             <div>
               <p style={{ fontSize: 14, fontWeight: 600, marginBottom: 8 }}>Gallery Screenshots (Bulk Upload Supported)</p>
               <div style={{ display: "flex", gap: 12, flexWrap: "wrap", marginBottom: 12 }}>
-                {formData.gallery.map((img: any, i: number) => (
+                {formData.gallery.map((img: Record<string, string>, i: number) => (
                   <div key={i} style={{ position: "relative" }}>
                     <img src={img.url} alt="Gallery" style={{ height: 100, width: 140, objectFit: "cover", borderRadius: 8, border: "1px solid #E2E8F0" }} />
                     <button type="button" onClick={() => {
@@ -277,10 +279,10 @@ export default function EditProjectForm({ project }: { project: any }) {
                 ))}
               </div>
               
-              <CldUploadWidget uploadPreset="ml_default" options={{ multiple: true }} onSuccess={(result: any) => {
+              <CldUploadWidget uploadPreset="ml_default" options={{ multiple: true }} onSuccess={(result: Record<string, unknown>) => {
                 setFormData(prev => ({ 
                   ...prev, 
-                  gallery: [...prev.gallery, { url: result.info.secure_url, alt: "Screenshot" }]
+                  gallery: [...prev.gallery, { url: (result.info as Record<string, string>).secure_url, alt: "Screenshot" }]
                 }))
               }}>
                 {({ open }) => (
