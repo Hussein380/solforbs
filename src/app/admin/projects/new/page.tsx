@@ -218,7 +218,7 @@ export default function NewProjectPage() {
                 {feature.image && (
                   <img src={feature.image} alt="Feature" style={{ height: 80, objectFit: "cover", borderRadius: 6, marginBottom: 8 }} />
                 )}
-                <CldUploadWidget uploadPreset="ml_default" onSuccess={(result: Record<string, unknown>) => updateFeature(index, "image", (result.info as Record<string, string>).secure_url)}>
+                <CldUploadWidget uploadPreset="ml_default" onSuccess={(result: any) => updateFeature(index, "image", result.info.secure_url)}>
                   {({ open }) => (
                     <button type="button" onClick={() => open()} style={{ padding: "8px 16px", background: "#E2E8F0", borderRadius: 6, border: "none", cursor: "pointer", fontSize: 13, fontWeight: 600, alignSelf: "flex-start" }}>
                       Upload Feature Image
@@ -246,8 +246,8 @@ export default function NewProjectPage() {
               {formData.heroImageUrl && (
                 <img src={formData.heroImageUrl} alt="Hero" style={{ height: 140, objectFit: "cover", borderRadius: 8, marginBottom: 12, border: "1px solid #E2E8F0" }} />
               )}
-              <CldUploadWidget uploadPreset="ml_default" onSuccess={(result: Record<string, unknown>) => {
-                setFormData(prev => ({ ...prev, heroImageUrl: (result.info as Record<string, string>).secure_url }))
+              <CldUploadWidget uploadPreset="ml_default" onSuccess={(result: any) => {
+                setFormData(prev => ({ ...prev, heroImageUrl: result.info.secure_url }))
               }}>
                 {({ open }) => (
                   <button type="button" onClick={() => open()} style={{ padding: "8px 16px", background: "#E2E8F0", borderRadius: 6, border: "none", cursor: "pointer", fontSize: 13, fontWeight: 600 }}>
@@ -268,10 +268,10 @@ export default function NewProjectPage() {
               </div>
               
               {/* Note options={{ multiple: true }} for bulk uploading */}
-              <CldUploadWidget uploadPreset="ml_default" options={{ multiple: true }} onSuccess={(result: Record<string, unknown>) => {
+              <CldUploadWidget uploadPreset="ml_default" options={{ multiple: true }} onSuccess={(result: any) => {
                 setFormData(prev => ({ 
                   ...prev, 
-                  gallery: [...prev.gallery, { url: (result.info as Record<string, string>).secure_url, alt: "Screenshot" }]
+                  gallery: [...prev.gallery, { url: result.info.secure_url, alt: "Screenshot" }]
                 }))
               }}>
                 {({ open }) => (

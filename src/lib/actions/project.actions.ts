@@ -13,7 +13,7 @@ export async function getProjects() {
     const projects = await Project.find().sort({ sortOrder: 1 }).lean();
     
     // Convert ObjectIds to strings to avoid Next.js serialization errors
-    return projects.map((project: Record<string, unknown>): IProject => {
+    return projects.map((project: any): IProject => {
       project._id = project._id.toString();
       if (project.createdAt) project.createdAt = project.createdAt.toISOString();
       if (project.updatedAt) project.updatedAt = project.updatedAt.toISOString();
