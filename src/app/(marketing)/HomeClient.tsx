@@ -179,11 +179,24 @@ export default function HomeClient({ projects = [] }: { projects?: any[] }) {
 
         {/* Hero text */}
         <motion.div className="section-pad" style={{ position: "relative", zIndex: 4, maxWidth: 1100, margin: "0 auto", width: "100%", opacity: heroOpacity }}>
-          <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
-            style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 24 }}>
-            <StatusBadge status="live" />
-            <span style={{ fontSize: 13, color: "#6B7280" }}>School Management Platform is live</span>
-          </motion.div>
+          {(() => {
+            const featuredProject = projects?.find((p) => p.status === "live");
+            const bannerText = featuredProject ? `${featuredProject.name} is live` : "School Management Platform is live";
+            const bannerLink = featuredProject?.liveUrl || (featuredProject?.subdomain ? `https://${featuredProject.subdomain}` : "#");
+
+            return (
+              <Link href={bannerLink} style={{ textDecoration: "none", display: "inline-block" }}>
+                <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}
+                  style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 24, padding: "4px 12px", marginLeft: "-12px", borderRadius: 20, transition: "background 0.2s" }}
+                  onMouseEnter={(e) => { e.currentTarget.style.background = "#F3F4F6"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.background = "transparent"; }}>
+                  <StatusBadge status="live" />
+                  <span style={{ fontSize: 13, color: "#4B5563", fontWeight: 500 }}>{bannerText}</span>
+                  <span style={{ fontSize: 12, color: "#9CA3AF" }}>→</span>
+                </motion.div>
+              </Link>
+            );
+          })()}
 
           <div className="w-full-mobile text-center-mobile" style={{ maxWidth: "52%", minWidth: 280 }}>
             <h1 style={{ fontSize: "clamp(32px, 5.5vw, 68px)", fontWeight: 700, marginBottom: 20, color: "#0D1117" }}>
