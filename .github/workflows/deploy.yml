@@ -6,13 +6,33 @@ on:
       - main
 
 jobs:
-  deploy:
+  test_and_lint:
+    name: Run Tests & Lint (CI)
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Check TypeScript Errors
+        run: npx tsc --noEmit
+
+      - name: Run ESLint
+        run: npm run lint
+
+  deploy:
+    name: Deploy to VPS (CD)
+    needs: test_and_lint # <-- INDUSTRY STANDARD: Prevent deployment if CI fails!
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1.0.3
         with:
