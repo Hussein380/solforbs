@@ -8,7 +8,9 @@ import { useState, useRef } from "react";
 import {
   Building2, GraduationCap, Hotel, Landmark,
   Tractor, ShoppingBag, Factory, Stethoscope, ArrowRight, ChevronDown,
+  ChevronRight, X, Menu,
 } from "lucide-react";
+import StatusBadge from "@/components/marketing/StatusBadge";
 
 /* ── Data ─────────────────────────────────────────────────────────── */
 const navLinks = [
@@ -101,7 +103,7 @@ export default function Navbar({ projects = [] }: { projects?: any[] }) {
                   </motion.span>
                 </Link>
 
-                {/* Clean, single-column Products dropdown listing only projects from DB */}
+                {/* Desktop dropdown */}
                 <AnimatePresence>
                   {megaMenuOpen && (
                     <motion.div
@@ -213,72 +215,200 @@ export default function Navbar({ projects = [] }: { projects?: any[] }) {
               className="nav-mobile"
               onClick={() => setMenuOpen(o => !o)}
               style={{
-                background: "transparent", border: "none",
-                width: 40, height: 40, cursor: "pointer",
-                flexDirection: "column", gap: 6, padding: 0, zIndex: 110,
+                background: "transparent", 
+                border: "none",
+                width: 44, 
+                height: 44, 
+                cursor: "pointer",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 0, 
+                zIndex: 110,
               }}
             >
-              <motion.span animate={{ rotate: menuOpen ? 45 : 0,  y: menuOpen ? 8  : 0 }}
-                style={{ display: "block", width: 22, height: 2, background: "#0D1117", borderRadius: 2, transformOrigin: "center" }} />
-              <motion.span animate={{ opacity: menuOpen ? 0 : 1 }}
-                style={{ display: "block", width: 22, height: 2, background: "#0D1117", borderRadius: 2 }} />
-              <motion.span animate={{ rotate: menuOpen ? -45 : 0, y: menuOpen ? -8 : 0 }}
-                style={{ display: "block", width: 22, height: 2, background: "#0D1117", borderRadius: 2, transformOrigin: "center" }} />
+              {menuOpen ? <X size={24} color="#0D1117" /> : <Menu size={24} color="#0D1117" />}
             </button>
           </nav>
         </div>
       </motion.header>
 
-      {/* Mobile fullscreen menu */}
+      {/* Modern Compact Mobile Drawer Menu */}
       <AnimatePresence>
         {menuOpen && (
-          <motion.div
-            key="mobile-menu"
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            style={{
-              position: "fixed", inset: 0, zIndex: 90,
-              background: "rgba(255,255,255,0.98)", backdropFilter: "blur(24px)",
-              display: "flex", flexDirection: "column", padding: "100px 24px 40px",
-            }}
-          >
-            <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 24, overflowY: "auto" }}>
-              <p style={{ fontSize: 12, fontWeight: 700, color: "#94A3B8", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: -10 }}>
-                Products
-              </p>
-              {liveProjects.map((proj, i) => {
-                const href = proj.subdomain ? `https://${proj.subdomain}` : (proj.liveUrl ?? "#");
-                return (
-                  <motion.div key={proj._id} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 + i * 0.05 }}>
-                    <a href={href} onClick={() => setMenuOpen(false)}
-                      style={{ fontSize: 24, fontWeight: 700, color: "#0F172A", textDecoration: "none", display: "flex", alignItems: "center", gap: 12 }}>
-                      {proj.name}
-                    </a>
-                  </motion.div>
-                );
-              })}
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setMenuOpen(false)}
+              style={{
+                position: "fixed",
+                inset: 0,
+                background: "rgba(15, 23, 42, 0.45)",
+                backdropFilter: "blur(6px)",
+                zIndex: 85,
+              }}
+            />
 
-              <div style={{ height: 1, background: "#E2E8F0", margin: "8px 0" }} />
+            {/* Floating Menu Card */}
+            <motion.div
+              key="mobile-menu"
+              initial={{ opacity: 0, y: -16, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -16, scale: 0.98 }}
+              transition={{ duration: 0.22, ease: "easeOut" }}
+              style={{
+                position: "fixed",
+                top: 76,
+                left: 14,
+                right: 14,
+                zIndex: 90,
+                background: "#FFFFFF",
+                borderRadius: 20,
+                boxShadow: "0 24px 60px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.04)",
+                border: "1px solid rgba(0, 0, 0, 0.08)",
+                padding: "20px 18px",
+                maxHeight: "calc(100vh - 96px)",
+                overflowY: "auto",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              {/* Products Section */}
+              <div style={{ marginBottom: 14 }}>
+                <span 
+                  style={{ 
+                    fontSize: 11, 
+                    fontWeight: 700, 
+                    letterSpacing: "0.08em", 
+                    textTransform: "uppercase", 
+                    color: "var(--text-tertiary)",
+                    display: "block",
+                    marginBottom: 10,
+                  }}
+                >
+                  Platform Products
+                </span>
 
-              {navLinks.map((link, i) => (
-                <motion.div key={link.label} initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 + i * 0.05 }}>
-                  <Link href={link.href} onClick={() => setMenuOpen(false)}
-                    style={{ fontSize: 24, fontWeight: 600, color: "#475569", textDecoration: "none" }}>
-                    {link.label}
+                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+                  {liveProjects.map((proj) => {
+                    const Icon: any = getIconForIndustry(proj.industry);
+                    const rawUrl = proj.subdomain ? `https://${proj.subdomain}` : proj.liveUrl;
+                    const isExternal = rawUrl && rawUrl !== "#" && rawUrl !== "https://#" && rawUrl !== "http://#" && rawUrl.startsWith("http");
+                    const targetHref = isExternal ? rawUrl : "/#products";
+
+                    return (
+                      <a
+                        key={proj._id}
+                        href={targetHref}
+                        target={isExternal ? "_blank" : undefined}
+                        rel={isExternal ? "noopener noreferrer" : undefined}
+                        onClick={() => setMenuOpen(false)}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 12,
+                          padding: "10px 12px",
+                          borderRadius: 12,
+                          background: "#F8FAFC",
+                          border: "1px solid rgba(0, 0, 0, 0.04)",
+                          textDecoration: "none",
+                        }}
+                      >
+                        <div
+                          style={{
+                            width: 36,
+                            height: 36,
+                            borderRadius: 9,
+                            background: "var(--gradient-brand)",
+                            color: "#fff",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            flexShrink: 0,
+                          }}
+                        >
+                          <Icon size={18} />
+                        </div>
+
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>
+                            {proj.name}
+                          </div>
+                          <div style={{ fontSize: 11, color: "var(--text-secondary)", textTransform: "capitalize" }}>
+                            {proj.industry}
+                          </div>
+                        </div>
+
+                        {proj.status && (proj.status === "live" || proj.status === "in_development" || proj.status === "planned") && (
+                          <StatusBadge status={proj.status as "live" | "in_development" | "planned"} size="sm" />
+                        )}
+                        <ChevronRight size={15} color="var(--text-tertiary)" />
+                      </a>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Divider */}
+              <div style={{ height: 1, background: "rgba(0, 0, 0, 0.06)", margin: "8px 0 14px" }} />
+
+              {/* Navigation Links */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.label}
+                    href={link.href}
+                    onClick={() => setMenuOpen(false)}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      padding: "11px 12px",
+                      borderRadius: 10,
+                      fontSize: 15,
+                      fontWeight: 600,
+                      color: "var(--text-primary)",
+                      textDecoration: "none",
+                    }}
+                  >
+                    <span>{link.label}</span>
+                    <ChevronRight size={16} color="var(--text-tertiary)" />
                   </Link>
-                </motion.div>
-              ))}
-            </div>
+                ))}
+              </div>
 
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
-              <Link href="/contact" onClick={() => setMenuOpen(false)} className="btn btn-primary-lg"
-                style={{ width: "100%", fontSize: 18, borderRadius: 14 }}>
-                Book a demo
-              </Link>
+              {/* Compact Bottom CTA */}
+              <div style={{ marginTop: 16, paddingTop: 14, borderTop: "1px solid rgba(0, 0, 0, 0.06)" }}>
+                <Link
+                  href="/contact"
+                  onClick={() => setMenuOpen(false)}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 8,
+                    width: "100%",
+                    minHeight: 44,
+                    padding: "11px 20px",
+                    background: "var(--gradient-cta)",
+                    color: "#FFFFFF",
+                    borderRadius: 10,
+                    fontSize: 14.5,
+                    fontWeight: 700,
+                    textDecoration: "none",
+                    boxShadow: "var(--shadow-brand)",
+                  }}
+                >
+                  <span>Book an Enterprise Demo</span>
+                  <ArrowRight size={15} />
+                </Link>
+              </div>
             </motion.div>
-          </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>

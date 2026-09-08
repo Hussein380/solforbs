@@ -413,10 +413,15 @@ img { max-width: 100%; display: block; }
 
   .hero-section {
     min-height: auto !important;
-    padding-top: 68px !important;
+    padding-top: 76px !important;
     padding-bottom: 20px !important;
     overflow-y: visible !important;
     overflow-x: hidden !important;
+  }
+
+  .hero-section .section-pad {
+    padding-top: 16px !important;
+    padding-bottom: 24px !important;
   }
 
   .hero-wrapper-mobile {
