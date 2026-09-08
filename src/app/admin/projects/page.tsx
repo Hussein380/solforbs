@@ -2,6 +2,7 @@ import { getProjects } from "@/lib/actions/project.actions";
 import { getAdminSession } from "@/lib/auth/session";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import DeleteProjectButton from "./DeleteProjectButton";
 
 export default async function AdminProjectsPage() {
   const session = await getAdminSession();
@@ -60,9 +61,23 @@ export default async function AdminProjectsPage() {
                     </span>
                   </td>
                   <td style={{ padding: "16px 24px", textAlign: "right" }}>
-                    <Link href={`/admin/projects/${proj._id}/edit`} style={{ fontSize: 13, fontWeight: 600, color: "#0E5BFF", textDecoration: "none" }}>
-                      Edit
-                    </Link>
+                    <div style={{ display: "inline-flex", alignItems: "center", gap: 12, justifyContent: "flex-end" }}>
+                      <Link
+                        href={`/admin/projects/${proj._id}/edit`}
+                        style={{
+                          fontSize: 13,
+                          fontWeight: 600,
+                          color: "#0E5BFF",
+                          textDecoration: "none",
+                          padding: "5px 10px",
+                          borderRadius: 6,
+                          background: "rgba(14, 91, 255, 0.06)",
+                        }}
+                      >
+                        Edit
+                      </Link>
+                      <DeleteProjectButton projectId={proj._id} projectName={proj.name} />
+                    </div>
                   </td>
                 </tr>
               ))

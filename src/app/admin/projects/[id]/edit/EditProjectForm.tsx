@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { updateProject } from "@/lib/actions/project.actions";
+import { updateProject, deleteProject } from "@/lib/actions/project.actions";
 import { CldUploadWidget } from "next-cloudinary";
 import Link from "next/link";
 import { Trash2, Plus } from "lucide-react";
@@ -17,8 +17,32 @@ import { IProject } from "@/types/project";
 export default function EditProjectForm({ project }: { project: any }) {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [error, setError] = useState("");
+
+  const handleDeleteProject = async () => {
+    const confirmed = window.confirm(
+      `Are you sure you want to permanently delete "${project.name}"? This cannot be undone.`
+    );
+    if (!confirmed) return;
+
+    setIsDeleting(true);
+    try {
+      const res = await deleteProject(project._id);
+      if (res.success) {
+        router.push("/admin/projects");
+        router.refresh();
+      } else {
+        alert(res.error || "Failed to delete project.");
+        setIsDeleting(false);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("An error occurred while deleting.");
+      setIsDeleting(false);
+    }
+  };
   
   // Determine initial industry selection
   const isCustomIndustry = !INDUSTRIES.includes(project.industry);
@@ -295,13 +319,35 @@ export default function EditProjectForm({ project }: { project: any }) {
           </div>
         </div>
 
-        <button type="submit" disabled={isSubmitting} style={{
-          padding: "16px", background: "#0E5BFF", color: "#fff", borderRadius: 10, 
-          fontSize: 16, fontWeight: 700, border: "none", cursor: isSubmitting ? "wait" : "pointer",
-          marginTop: 16, opacity: isSubmitting ? 0.7 : 1, boxShadow: "0 4px 16px rgba(14,91,255,0.2)"
-        }}>
-          {isSubmitting ? "Saving Changes..." : "Save Changes"}
-        </button>
+        <div style={{ display: "flex", gap: 14, alignItems: "center", marginTop: 16 }}>
+          <button type="submit" disabled={isSubmitting || isDeleting} style={{
+            flex: 1,
+            padding: "16px", background: "#0E5BFF", color: "#fff", borderRadius: 10, 
+            fontSize: 16, fontWeight: 700, border: "none", cursor: isSubmitting ? "wait" : "pointer",
+            opacity: isSubmitting ? 0.7 : 1, boxShadow: "0 4px 16px rgba(14,91,255,0.2)"
+          }}>
+            {isSubmitting ? "Saving Changes..." : "Save Changes"}
+          </button>
+
+          <button
+            type="button"
+            onClick={handleDeleteProject}
+            disabled={isSubmitting || isDeleting}
+            style={{
+              padding: "16px 24px",
+              background: "#FEF2F2",
+              color: "#DC2626",
+              borderRadius: 10,
+              fontSize: 15,
+              fontWeight: 700,
+              border: "1px solid rgba(239, 68, 68, 0.2)",
+              cursor: isDeleting ? "wait" : "pointer",
+              opacity: isDeleting ? 0.7 : 1,
+            }}
+          >
+            {isDeleting ? "Deleting..." : "Delete Project"}
+          </button>
+        </div>
       </form>
     </div>
   );
