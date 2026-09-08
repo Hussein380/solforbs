@@ -4,6 +4,7 @@ import connectToDatabase from "@/lib/db";
 import Project from "@/models/Project";
 import { revalidatePath, unstable_noStore as noStore } from "next/cache";
 import { IProject } from "@/types/project";
+import { requireAdmin } from "@/lib/auth/session";
 
 export async function getProjects() {
   noStore();
@@ -64,6 +65,7 @@ export async function getFeaturedProject() {
 
 export async function createProject(data: Partial<IProject>) {
   try {
+    await requireAdmin();
     await connectToDatabase();
     const newProject = await Project.create(data);
     revalidatePath("/");
@@ -96,6 +98,7 @@ export async function getProjectById(id: string) {
 
 export async function updateProject(id: string, data: Partial<IProject>) {
   try {
+    await requireAdmin();
     await connectToDatabase();
     await Project.findByIdAndUpdate(id, data);
     revalidatePath("/");
@@ -109,6 +112,7 @@ export async function updateProject(id: string, data: Partial<IProject>) {
 
 export async function deleteProject(id: string) {
   try {
+    await requireAdmin();
     await connectToDatabase();
     await Project.findByIdAndDelete(id);
     revalidatePath("/");
