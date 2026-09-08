@@ -593,4 +593,53 @@ img { max-width: 100%; display: block; }
   }
 }
 
+/* ═══════════════════════════════════════════════════════════════════
+   AI CHATBOT LAUNCHER & WINDOW RESPONSIVENESS
+   ═══════════════════════════════════════════════════════════════════ */
+.chatbot-text-desktop {
+  display: block;
+}
+
+.chatbot-window {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 400px;
+  max-width: calc(100vw - 32px);
+  height: 580px;
+  max-height: min(580px, calc(100dvh - 96px));
+  border-radius: 20px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  z-index: 10000 !important;
+}
+
+@media (max-width: 640px) {
+  .chatbot-text-desktop {
+    display: none !important;
+  }
+  .chatbot-launcher-btn {
+    padding: 0 !important;
+    border-radius: 50% !important;
+    width: 48px !important;
+    height: 48px !important;
+    justify-content: center !important;
+    bottom: 84px !important;
+    right: 20px !important;
+  }
+  .chatbot-window {
+    inset: 0 !important;
+    bottom: 0 !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-height: 100dvh !important;
+    border-radius: 0 !important;
+    z-index: 10000 !important;
+  }
+}
+
+
+
 

@@ -1,6 +1,7 @@
 import Navbar from "@/components/marketing/Navbar";
 import Footer from "@/components/marketing/Footer";
 import FloatingWhatsApp from "@/components/marketing/FloatingWhatsApp";
+import SolforbsChatbot from "@/components/marketing/SolforbsChatbot";
 import { getProjects } from "@/lib/actions/project.actions";
 
 export default async function MarketingLayout({
@@ -17,6 +18,7 @@ export default async function MarketingLayout({
         {children}
       </main>
       <Footer />
+      <SolforbsChatbot />
       <FloatingWhatsApp />
     </>
   );
