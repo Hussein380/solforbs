@@ -61,10 +61,11 @@ export default function FloatingWhatsApp() {
   return (
     <div
       ref={widgetRef}
+      className="floating-whatsapp-wrap"
       style={{
         position: "fixed",
-        bottom: 24,
-        right: 24,
+        bottom: "max(20px, calc(env(safe-area-inset-bottom, 0px) + 20px))",
+        right: "max(20px, env(safe-area-inset-right, 20px))",
         zIndex: 90,
         display: "flex",
         flexDirection: "column",

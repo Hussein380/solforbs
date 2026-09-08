@@ -3,8 +3,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
 import {
-  Sparkles,
   X,
   Send,
   RotateCcw,
@@ -12,7 +12,6 @@ import {
   GraduationCap,
   CalendarCheck,
   PhoneCall,
-  Bot,
   User,
   ShieldCheck,
 } from "lucide-react";
@@ -272,371 +271,407 @@ export default function SolforbsChatbot() {
 
   return (
     <>
-      {/* ── Chat Modal Window ─────────────────────────────────────── */}
+      {/* ── Chat Modal Window & Backdrop ──────────────────────────── */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 20, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 16, scale: 0.96 }}
-            transition={{ type: "spring", stiffness: 350, damping: 30 }}
-            className="chatbot-window"
-            style={{
-              background: "#FFFFFF",
-              zIndex: 10000,
-              display: "flex",
-              flexDirection: "column",
-              overflow: "hidden",
-            }}
-          >
-            {/* Header */}
-            <div
-              style={{
-                background: "linear-gradient(135deg, #0B132B 0%, #1C2D5A 100%)",
-                padding: "16px 20px",
-                color: "#FFFFFF",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
-                flexShrink: 0,
-              }}
+          <>
+            {/* Clickable Dimmed Backdrop (closes easily on tap/click) */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setIsOpen(false)}
+              className="chatbot-backdrop"
+              aria-label="Close chatbot modal"
+            />
+
+            {/* Modal Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.94, y: 12 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.94, y: 12 }}
+              transition={{ type: "spring", stiffness: 380, damping: 30 }}
+              className="chatbot-window"
             >
-              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-                <div
-                  style={{
-                    width: 38,
-                    height: 38,
-                    borderRadius: 12,
-                    background: "linear-gradient(135deg, #2563EB 0%, #38BDF8 100%)",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    boxShadow: "0 4px 14px rgba(37, 99, 235, 0.35)",
-                    position: "relative",
-                  }}
-                >
-                  <Sparkles size={19} color="#FFFFFF" />
-                  <span
-                    style={{
-                      position: "absolute",
-                      bottom: -2,
-                      right: -2,
-                      width: 10,
-                      height: 10,
-                      borderRadius: "50%",
-                      background: "#10B981",
-                      border: "2px solid #0B132B",
-                    }}
-                  />
-                </div>
-                <div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                    <span style={{ fontSize: 15, fontWeight: 700, letterSpacing: "-0.01em" }}>
-                      Solforbs Intelligence
-                    </span>
-                  </div>
-                  <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 2 }}>
-                    <span style={{ fontSize: 11, color: "rgba(255, 255, 255, 0.75)", fontWeight: 500 }}>
-                      Proprietary Enterprise Advisor · Online
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                <button
-                  onClick={handleReset}
-                  title="Reset conversation"
-                  aria-label="Reset conversation"
-                  style={{
-                    background: "rgba(255, 255, 255, 0.12)",
-                    border: "none",
-                    borderRadius: "50%",
-                    width: 30,
-                    height: 30,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "#FFFFFF",
-                    cursor: "pointer",
-                    transition: "background 0.2s",
-                  }}
-                >
-                  <RotateCcw size={14} />
-                </button>
-                <button
-                  onClick={() => setIsOpen(false)}
-                  aria-label="Close chat"
-                  style={{
-                    background: "rgba(255, 255, 255, 0.12)",
-                    border: "none",
-                    borderRadius: "50%",
-                    width: 30,
-                    height: 30,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    color: "#FFFFFF",
-                    cursor: "pointer",
-                    transition: "background 0.2s",
-                  }}
-                >
-                  <X size={16} />
-                </button>
-              </div>
-            </div>
-
-            {/* Messages Body */}
-            <div
-              style={{
-                flex: 1,
-                padding: "16px",
-                overflowY: "auto",
-                background: "#F8FAFC",
-                display: "flex",
-                flexDirection: "column",
-                gap: 14,
-              }}
-            >
-              {messages.map((m) => {
-                const isAssistant = m.role === "assistant";
-                return (
-                  <div
-                    key={m.id}
-                    style={{
-                      display: "flex",
-                      alignItems: "flex-start",
-                      gap: 10,
-                      alignSelf: isAssistant ? "flex-start" : "flex-end",
-                      maxWidth: "88%",
-                    }}
-                  >
-                    {isAssistant && (
-                      <div
-                        style={{
-                          width: 28,
-                          height: 28,
-                          borderRadius: "50%",
-                          background: "#0B132B",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          color: "#38BDF8",
-                          flexShrink: 0,
-                          marginTop: 2,
-                        }}
-                      >
-                        <Bot size={15} />
-                      </div>
-                    )}
-
-                    <div
-                      style={{
-                        background: isAssistant ? "#FFFFFF" : "var(--brand-mid, #0066FF)",
-                        color: isAssistant ? "#1E293B" : "#FFFFFF",
-                        padding: "12px 16px",
-                        borderRadius: isAssistant ? "4px 18px 18px 18px" : "18px 4px 18px 18px",
-                        boxShadow: isAssistant ? "0 2px 8px rgba(0, 0, 0, 0.04)" : "0 3px 10px rgba(0, 102, 255, 0.2)",
-                        border: isAssistant ? "1px solid rgba(0, 0, 0, 0.06)" : "none",
-                      }}
-                    >
-                      {isAssistant ? (
-                        <FormattedMessage content={m.content} isTyping={m.isTyping} />
-                      ) : (
-                        <span style={{ fontSize: 13.5, lineHeight: 1.5 }}>{m.content}</span>
-                      )}
-                    </div>
-
-                    {!isAssistant && (
-                      <div
-                        style={{
-                          width: 28,
-                          height: 28,
-                          borderRadius: "50%",
-                          background: "#E2E8F0",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          color: "#475569",
-                          flexShrink: 0,
-                          marginTop: 2,
-                        }}
-                      >
-                        <User size={15} />
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
-
-              {/* Typing indicator (while awaiting server) */}
-              {loading && (
-                <div style={{ display: "flex", alignItems: "center", gap: 10, alignSelf: "flex-start" }}>
+              {/* Header with Solforbs Logo */}
+              <div
+                className="chatbot-header"
+                style={{
+                  background: "linear-gradient(135deg, #0B132B 0%, #1C2D5A 100%)",
+                  color: "#FFFFFF",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  borderBottom: "1px solid rgba(255, 255, 255, 0.1)",
+                  flexShrink: 0,
+                }}
+              >
+                <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
                   <div
                     style={{
-                      width: 28,
-                      height: 28,
-                      borderRadius: "50%",
-                      background: "#0B132B",
+                      width: 38,
+                      height: 38,
+                      borderRadius: 12,
+                      background: "#FFFFFF",
+                      padding: 3,
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "center",
-                      color: "#38BDF8",
+                      boxShadow: "0 4px 14px rgba(37, 99, 235, 0.35)",
+                      position: "relative",
+                      flexShrink: 0,
                     }}
                   >
-                    <Bot size={15} />
+                    <Image
+                      src="/apple-touch-icon.png"
+                      alt="Solforbs Logo"
+                      width={32}
+                      height={32}
+                      style={{ objectFit: "contain", borderRadius: 8 }}
+                      priority
+                    />
+                    <span
+                      style={{
+                        position: "absolute",
+                        bottom: -2,
+                        right: -2,
+                        width: 10,
+                        height: 10,
+                        borderRadius: "50%",
+                        background: "#10B981",
+                        border: "2px solid #0B132B",
+                      }}
+                    />
                   </div>
-                  <div
-                    style={{
-                      background: "#FFFFFF",
-                      padding: "12px 18px",
-                      borderRadius: "4px 18px 18px 18px",
-                      boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
-                      border: "1px solid rgba(0, 0, 0, 0.06)",
-                      display: "flex",
-                      gap: 5,
-                      alignItems: "center",
-                    }}
-                  >
-                    {[0, 1, 2].map((dot) => (
-                      <motion.div
-                        key={dot}
-                        animate={{ opacity: [0.3, 1, 0.3], y: [0, -4, 0] }}
-                        transition={{ duration: 0.7, repeat: Infinity, delay: dot * 0.18 }}
-                        style={{ width: 6, height: 6, borderRadius: "50%", background: "#2563EB" }}
-                      />
-                    ))}
-                    <span style={{ fontSize: 12, color: "#64748B", marginLeft: 6, fontWeight: 500 }}>
-                      Solforbs Advisor is preparing response...
-                    </span>
+                  <div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <span style={{ fontSize: 14.5, fontWeight: 700, letterSpacing: "-0.01em" }}>
+                        Solforbs Intelligence
+                      </span>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6, marginTop: 1 }}>
+                      <span style={{ fontSize: 11, color: "rgba(255, 255, 255, 0.75)", fontWeight: 500 }}>
+                        Enterprise Advisor · Online
+                      </span>
+                    </div>
                   </div>
                 </div>
-              )}
 
-              {/* Quick suggestion pills (shown if 2 or fewer messages) */}
-              {messages.length <= 2 && !loading && (
-                <div style={{ marginTop: 8, display: "flex", flexDirection: "column", gap: 8 }}>
-                  <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94A3B8" }}>
-                    Suggested Questions:
-                  </span>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
-                    {QUICK_PROMPTS.map((qp, i) => {
-                      const Icon = qp.icon;
-                      return (
-                        <button
-                          key={i}
-                          onClick={() => handleSend(qp.query)}
-                          disabled={loading}
+                <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                  <button
+                    onClick={handleReset}
+                    className="chatbot-action-btn"
+                    title="Reset conversation"
+                    aria-label="Reset conversation"
+                    style={{
+                      background: "rgba(255, 255, 255, 0.12)",
+                      border: "none",
+                      borderRadius: "50%",
+                      width: 32,
+                      height: 32,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "#FFFFFF",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <RotateCcw size={15} />
+                  </button>
+                  <button
+                    onClick={() => setIsOpen(false)}
+                    className="chatbot-action-btn"
+                    aria-label="Close chat"
+                    style={{
+                      background: "rgba(255, 255, 255, 0.12)",
+                      border: "none",
+                      borderRadius: "50%",
+                      width: 32,
+                      height: 32,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      color: "#FFFFFF",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <X size={17} />
+                  </button>
+                </div>
+              </div>
+
+              {/* Messages Body */}
+              <div
+                className="chatbot-messages"
+                style={{
+                  flex: 1,
+                  padding: "16px",
+                  overflowY: "auto",
+                  background: "#F8FAFC",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 14,
+                }}
+              >
+                {messages.map((m) => {
+                  const isAssistant = m.role === "assistant";
+                  return (
+                    <div
+                      key={m.id}
+                      style={{
+                        display: "flex",
+                        alignItems: "flex-start",
+                        gap: 10,
+                        alignSelf: isAssistant ? "flex-start" : "flex-end",
+                        maxWidth: "88%",
+                      }}
+                    >
+                      {isAssistant && (
+                        <div
                           style={{
+                            width: 28,
+                            height: 28,
+                            borderRadius: "50%",
                             background: "#FFFFFF",
-                            border: "1px solid rgba(0, 0, 0, 0.08)",
-                            borderRadius: 16,
-                            padding: "7px 13px",
+                            border: "1px solid #E2E8F0",
+                            padding: 2,
                             display: "flex",
                             alignItems: "center",
-                            gap: 6,
-                            fontSize: 12,
-                            fontWeight: 600,
-                            color: "#334155",
-                            cursor: "pointer",
-                            transition: "all 0.2s",
-                          }}
-                          onMouseEnter={(e) => {
-                            e.currentTarget.style.borderColor = "#2563EB";
-                            e.currentTarget.style.background = "#EFF6FF";
-                          }}
-                          onMouseLeave={(e) => {
-                            e.currentTarget.style.borderColor = "rgba(0,0,0,0.08)";
-                            e.currentTarget.style.background = "#FFFFFF";
+                            justifyContent: "center",
+                            flexShrink: 0,
+                            marginTop: 2,
+                            overflow: "hidden",
                           }}
                         >
-                          <Icon size={13} color="#2563EB" />
-                          <span>{qp.label}</span>
-                        </button>
-                      );
-                    })}
+                          <Image
+                            src="/apple-touch-icon.png"
+                            alt="Solforbs"
+                            width={24}
+                            height={24}
+                            style={{ objectFit: "contain", borderRadius: "50%" }}
+                          />
+                        </div>
+                      )}
+
+                      <div
+                        style={{
+                          background: isAssistant ? "#FFFFFF" : "var(--brand-mid, #0066FF)",
+                          color: isAssistant ? "#1E293B" : "#FFFFFF",
+                          padding: "12px 16px",
+                          borderRadius: isAssistant ? "4px 18px 18px 18px" : "18px 4px 18px 18px",
+                          boxShadow: isAssistant ? "0 2px 8px rgba(0, 0, 0, 0.04)" : "0 3px 10px rgba(0, 102, 255, 0.2)",
+                          border: isAssistant ? "1px solid rgba(0, 0, 0, 0.06)" : "none",
+                        }}
+                      >
+                        {isAssistant ? (
+                          <FormattedMessage content={m.content} isTyping={m.isTyping} />
+                        ) : (
+                          <span style={{ fontSize: 13.5, lineHeight: 1.5 }}>{m.content}</span>
+                        )}
+                      </div>
+
+                      {!isAssistant && (
+                        <div
+                          style={{
+                            width: 28,
+                            height: 28,
+                            borderRadius: "50%",
+                            background: "#E2E8F0",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            color: "#475569",
+                            flexShrink: 0,
+                            marginTop: 2,
+                          }}
+                        >
+                          <User size={15} />
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+
+                {/* Typing indicator (while awaiting server) */}
+                {loading && (
+                  <div style={{ display: "flex", alignItems: "center", gap: 10, alignSelf: "flex-start" }}>
+                    <div
+                      style={{
+                        width: 28,
+                        height: 28,
+                        borderRadius: "50%",
+                        background: "#FFFFFF",
+                        border: "1px solid #E2E8F0",
+                        padding: 2,
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        flexShrink: 0,
+                        overflow: "hidden",
+                      }}
+                    >
+                      <Image
+                        src="/apple-touch-icon.png"
+                        alt="Solforbs"
+                        width={24}
+                        height={24}
+                        style={{ objectFit: "contain", borderRadius: "50%" }}
+                      />
+                    </div>
+                    <div
+                      style={{
+                        background: "#FFFFFF",
+                        padding: "12px 18px",
+                        borderRadius: "4px 18px 18px 18px",
+                        boxShadow: "0 2px 8px rgba(0, 0, 0, 0.04)",
+                        border: "1px solid rgba(0, 0, 0, 0.06)",
+                        display: "flex",
+                        gap: 5,
+                        alignItems: "center",
+                      }}
+                    >
+                      {[0, 1, 2].map((dot) => (
+                        <motion.div
+                          key={dot}
+                          animate={{ opacity: [0.3, 1, 0.3], y: [0, -4, 0] }}
+                          transition={{ duration: 0.7, repeat: Infinity, delay: dot * 0.18 }}
+                          style={{ width: 6, height: 6, borderRadius: "50%", background: "#2563EB" }}
+                        />
+                      ))}
+                      <span style={{ fontSize: 12, color: "#64748B", marginLeft: 6, fontWeight: 500 }}>
+                        Solforbs Advisor is preparing response...
+                      </span>
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              <div ref={chatEndRef} />
-            </div>
+                {/* Quick suggestion pills (shown if 2 or fewer messages) */}
+                {messages.length <= 2 && !loading && (
+                  <div style={{ marginTop: 8, display: "flex", flexDirection: "column", gap: 8 }}>
+                    <span style={{ fontSize: 11, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.08em", color: "#94A3B8" }}>
+                      Suggested Questions:
+                    </span>
+                    <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                      {QUICK_PROMPTS.map((qp, i) => {
+                        const Icon = qp.icon;
+                        return (
+                          <button
+                            key={i}
+                            onClick={() => handleSend(qp.query)}
+                            disabled={loading}
+                            className="chatbot-prompt-btn"
+                            style={{
+                              background: "#FFFFFF",
+                              border: "1px solid rgba(0, 0, 0, 0.08)",
+                              borderRadius: 16,
+                              padding: "7px 13px",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: 6,
+                              fontSize: 12,
+                              fontWeight: 600,
+                              color: "#334155",
+                              cursor: "pointer",
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.borderColor = "#2563EB";
+                              e.currentTarget.style.background = "#EFF6FF";
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.borderColor = "rgba(0,0,0,0.08)";
+                              e.currentTarget.style.background = "#FFFFFF";
+                            }}
+                          >
+                            <Icon size={13} color="#2563EB" />
+                            <span>{qp.label}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
 
-            {/* Input Bar */}
-            <div
-              style={{
-                padding: "12px 16px",
-                background: "#FFFFFF",
-                borderTop: "1px solid rgba(0, 0, 0, 0.06)",
-                display: "flex",
-                flexDirection: "column",
-                gap: 8,
-                flexShrink: 0,
-              }}
-            >
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleSend();
-                }}
-                style={{ display: "flex", alignItems: "center", gap: 8 }}
-              >
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  placeholder="Ask about school software, features, or deployment..."
-                  disabled={loading}
-                  style={{
-                    flex: 1,
-                    padding: "12px 16px",
-                    borderRadius: 14,
-                    border: "1px solid #E2E8F0",
-                    background: "#F8FAFC",
-                    fontSize: 13.5,
-                    outline: "none",
-                    color: "#0F172A",
-                    transition: "border-color 0.2s",
-                  }}
-                  onFocus={(e) => (e.target.style.borderColor = "#2563EB")}
-                  onBlur={(e) => (e.target.style.borderColor = "#E2E8F0")}
-                />
-                <button
-                  type="submit"
-                  disabled={!input.trim() || loading}
-                  aria-label="Send message"
-                  style={{
-                    background: input.trim() && !loading ? "var(--brand-mid, #0066FF)" : "#E2E8F0",
-                    color: input.trim() && !loading ? "#FFFFFF" : "#94A3B8",
-                    border: "none",
-                    borderRadius: 14,
-                    width: 44,
-                    height: 44,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    cursor: input.trim() && !loading ? "pointer" : "not-allowed",
-                    transition: "background 0.2s, transform 0.1s",
-                  }}
-                >
-                  <Send size={16} />
-                </button>
-              </form>
-
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: 11, color: "#94A3B8" }}>
-                <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                  <ShieldCheck size={12} color="#10B981" /> Verified Solforbs Solutions
-                </span>
-                <span>Press Enter to send</span>
+                <div ref={chatEndRef} />
               </div>
-            </div>
-          </motion.div>
+
+              {/* Input Bar */}
+              <div
+                className="chatbot-input-container"
+                style={{
+                  background: "#FFFFFF",
+                  borderTop: "1px solid rgba(0, 0, 0, 0.06)",
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: 8,
+                  flexShrink: 0,
+                }}
+              >
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleSend();
+                  }}
+                  style={{ display: "flex", alignItems: "center", gap: 8 }}
+                >
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    placeholder="Ask about school software, features, or deployment..."
+                    disabled={loading}
+                    className="chatbot-input"
+                    style={{
+                      flex: 1,
+                      padding: "12px 16px",
+                      borderRadius: 14,
+                      border: "1px solid #E2E8F0",
+                      background: "#F8FAFC",
+                      outline: "none",
+                      color: "#0F172A",
+                      transition: "border-color 0.2s",
+                    }}
+                    onFocus={(e) => (e.target.style.borderColor = "#2563EB")}
+                    onBlur={(e) => (e.target.style.borderColor = "#E2E8F0")}
+                  />
+                  <button
+                    type="submit"
+                    disabled={!input.trim() || loading}
+                    aria-label="Send message"
+                    className="chatbot-action-btn"
+                    style={{
+                      background: input.trim() && !loading ? "var(--brand-mid, #0066FF)" : "#E2E8F0",
+                      color: input.trim() && !loading ? "#FFFFFF" : "#94A3B8",
+                      border: "none",
+                      borderRadius: 14,
+                      width: 44,
+                      height: 44,
+                      minWidth: 44,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      cursor: input.trim() && !loading ? "pointer" : "not-allowed",
+                      transition: "background 0.2s, transform 0.1s",
+                    }}
+                  >
+                    <Send size={16} />
+                  </button>
+                </form>
+
+                <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: 11, color: "#94A3B8" }}>
+                  <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                    <ShieldCheck size={12} color="#10B981" /> Verified Solforbs Solutions
+                  </span>
+                  <span>Press Enter to send</span>
+                </div>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
 
-      {/* ── Floating Launcher Trigger ─────────────────────────────── */}
+      {/* ── Floating Launcher Trigger with Solforbs Logo ──────────── */}
       <AnimatePresence>
         {!isOpen && (
           <motion.button
@@ -650,7 +685,7 @@ export default function SolforbsChatbot() {
             className="chatbot-launcher-btn"
             style={{
               position: "fixed",
-              bottom: 92,
+              bottom: 96,
               right: 24,
               zIndex: 90,
               background: "linear-gradient(135deg, #0B132B 0%, #1E3A8A 100%)",
@@ -667,17 +702,27 @@ export default function SolforbsChatbot() {
           >
             <div
               style={{
-                width: 26,
-                height: 26,
+                width: 28,
+                height: 28,
                 borderRadius: "50%",
-                background: "linear-gradient(135deg, #2563EB 0%, #38BDF8 100%)",
+                background: "#FFFFFF",
+                padding: 2,
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
                 flexShrink: 0,
+                overflow: "hidden",
+                boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",
               }}
             >
-              <Sparkles size={14} color="#FFFFFF" />
+              <Image
+                src="/apple-touch-icon.png"
+                alt="Solforbs"
+                width={24}
+                height={24}
+                style={{ objectFit: "contain", borderRadius: "50%" }}
+                priority
+              />
             </div>
             <div className="chatbot-text-desktop" style={{ textAlign: "left" }}>
               <div style={{ fontSize: 13, fontWeight: 700, lineHeight: 1.2 }}>
@@ -693,3 +738,4 @@ export default function SolforbsChatbot() {
     </>
   );
 }
+
