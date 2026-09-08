@@ -210,7 +210,7 @@ export default function Navbar({ projects = [] }: { projects?: any[] }) {
               <Link href="/contact" className="btn btn-primary">Book a Demo</Link>
             </div>
 
-            {/* Hamburger — mobile */}
+            {/* Mobile menu toggle */}
             <button
               aria-label="Toggle menu"
               className="nav-mobile"

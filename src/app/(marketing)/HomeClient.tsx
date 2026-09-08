@@ -78,7 +78,7 @@ const industryIconClass: Record<string, string> = {
 
 const industries = [
   { name: "Education",     icon: GraduationCap, status: "live"           as const, desc: "Digital infrastructure for modern schools and universities." },
-  { name: "Hospitality",   icon: Hotel,         status: "in_development" as const, desc: "Seamless property and guest management for hotels." },
+  { name: "Hospitality",   icon: Hotel,         status: "in_development" as const, desc: "Front-desk operations, reservations, and guest billing for hotels." },
   { name: "Real Estate",   icon: Building2,     status: "planned"        as const, desc: "End-to-end property listings and tenant administration." },
   { name: "Agriculture",   icon: Tractor,       status: "planned"        as const, desc: "Supply chain tracking and yield reporting for agribusinesses." },
   { name: "Healthcare",    icon: Stethoscope,   status: "planned"        as const, desc: "Patient records, billing, and scheduling for clinics." },
@@ -91,7 +91,7 @@ const whyPoints = [
   { num: "01", title: "Industry-focused products",  desc: "Each platform is designed around the unique workflows of a specific sector." },
   { num: "02", title: "Built to scale",              desc: "Our products evolve with the organizations that use them." },
   { num: "03", title: "Modern by design",            desc: "Clean, fast, intuitive software that people enjoy using." },
-  { num: "04", title: "Long-term vision",            desc: "We are building a connected ecosystem of software for Africa's fastest-growing industries." },
+  { num: "04", title: "Long-term vision",            desc: "We build reliable software tailored for Africa's growing organizations." },
 ];
 
 const implementationSteps = [
@@ -229,7 +229,7 @@ export default function HomeClient({ projects = [] }: { projects?: any[] }) {
 
             <motion.p initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.5 }}
               style={{ fontSize: "clamp(14px, 1.6vw, 18px)", lineHeight: 1.7, color: "var(--text-secondary)", marginBottom: 36 }}>
-              Solforbs builds intelligent platforms that help organizations run better — starting with education, expanding across every sector.
+              Solforbs builds operational software for African institutions. We automate daily administration, tuition collection, and compliance in one unified cloud system.
             </motion.p>
 
             <motion.div initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.65 }}
@@ -281,10 +281,10 @@ export default function HomeClient({ projects = [] }: { projects?: any[] }) {
       <section id="industries" className="section-pad-sm stack-mobile" style={{ background: "#fff", borderBottom: "1px solid rgba(0,0,0,0.06)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <Reveal>
-            <span className="section-label">Platform Ecosystem</span>
-            <h2 className="section-title" style={{ marginBottom: 10 }}>Every industry. One ecosystem.</h2>
-            <p className="section-subtitle" style={{ marginBottom: 48, maxWidth: 400 }}>
-              Building platforms for every sector that powers Africa&apos;s economy.
+            <span className="section-label">Industry Coverage</span>
+            <h2 className="section-title" style={{ marginBottom: 10 }}>Software tailored to each sector.</h2>
+            <p className="section-subtitle" style={{ marginBottom: 48, maxWidth: 480 }}>
+              Dedicated platforms built around the operational workflows of each industry.
             </p>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(260px, 1fr))", gap: 16 }}>
@@ -314,7 +314,7 @@ export default function HomeClient({ projects = [] }: { projects?: any[] }) {
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <Reveal>
             <span className="section-label">Why Solforbs</span>
-            <h2 className="section-title" style={{ marginBottom: 56 }}>Built different. By design.</h2>
+            <h2 className="section-title" style={{ marginBottom: 56 }}>Why organizations choose Solforbs.</h2>
           </Reveal>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))", gap: 36 }}>
             {whyPoints.map((pt, i) => (

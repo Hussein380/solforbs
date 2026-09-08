@@ -4,49 +4,49 @@ import { Reveal } from "@/components/motion/Reveal";
 import { ShieldCheck, WifiOff, CreditCard, Cpu } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "About Us — Solforbs",
-  description: "Solforbs is an African enterprise software company engineering foundational vertical SaaS platforms for the continent's key industries.",
+  title: "About Us | Solforbs",
+  description: "Solforbs is an African enterprise software company building vertical SaaS platforms for the continent's key industries.",
 };
 
 const engineeringPillars = [
   {
     icon: WifiOff,
     title: "Offline-First Reliability",
-    desc: "African businesses operate in dynamic environments. Our platforms are built to function seamlessly during connectivity interruptions and auto-synchronize without data loss."
+    desc: "African businesses operate in dynamic environments. Our platforms keep functioning during connectivity interruptions and auto-synchronize once back online."
   },
   {
     icon: CreditCard,
     title: "Native Payment Rails",
-    desc: "Direct, audited integration with M-Pesa, MTN Mobile Money, Airtel Money, and local banking switches for frictionless instant fee collections and settlements."
+    desc: "Direct integration with M-Pesa, MTN Mobile Money, Airtel Money, and local banking switches for instant fee collections and settlements."
   },
   {
     icon: Cpu,
     title: "Vertical SaaS Depth",
-    desc: "We do not customize generic templates. Every workflow, data schema, and permission matrix is architected around the authentic operational needs of that sector."
+    desc: "We do not customize generic templates. Every workflow, data schema, and permission matrix is built around the authentic day-to-day needs of that sector."
   },
   {
     icon: ShieldCheck,
     title: "Institutional Data Governance",
-    desc: "Bank-grade encryption, role-based access control, and strict compliance with national data protection regulations keep organizational records sovereign and secure."
+    desc: "Encryption at rest and in transit, role-based access control, and strict compliance with national data protection regulations."
   },
 ];
 
 const values = [
   { 
     title: "Vertical Software, Not Consulting", 
-    desc: "Agencies build disposable one-off sites; Solforbs engineers deep operational systems designed to run entire industries reliably out of the box." 
+    desc: "We don't build disposable one-off websites. We engineer standard operational platforms that organizations use daily." 
   },
   { 
-    title: "Engineered for African Scale", 
-    desc: "We design software around the actual physical infrastructure, mobile-first workflows, and multi-tier user hierarchies of African organizations." 
+    title: "Engineered for Local Workflows", 
+    desc: "We design software around physical realities, mobile-first usage, and multi-tier organizational hierarchies." 
   },
   { 
-    title: "Decade-Horizon Commitment", 
-    desc: "Institutional software is not built overnight. We forge 10-year technology partnerships with the organizations that anchor our continent's future." 
+    title: "Long-Term Partnership", 
+    desc: "Institutional software requires continuous maintenance, security updates, and active technical support over years, not weeks." 
   },
   { 
-    title: "Silicon Valley Quality, Local Context", 
-    desc: "African institutions deserve software as fast, elegant, and reliable as the world's best tech platforms. We never compromise on performance or design." 
+    title: "Reliable Engineering, Local Context", 
+    desc: "African institutions deserve software as fast, stable, and intuitive as the world's best tech platforms." 
   },
 ];
 
@@ -60,10 +60,10 @@ export default function AboutPage() {
           <Reveal>
             <span className="section-label">Company Mission</span>
             <h1 style={{ fontSize: "clamp(38px, 5.2vw, 64px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.04em", marginBottom: 24, fontFamily: "'Space Grotesk', sans-serif" }}>
-              Architecting Africa&apos;s digital operating foundation.
+              Operational software for African institutions.
             </h1>
             <p style={{ fontSize: "clamp(17px, 1.8vw, 21px)", color: "var(--text-secondary)", lineHeight: 1.7, maxWidth: 720 }}>
-              Solforbs builds dedicated vertical software platforms that empower African institutions to transition from manual, error-prone workflows to automated, high-efficiency cloud operations. Headquartered in Nairobi, we engineer products built to power thousands of schools, clinics, and businesses across the continent.
+              Solforbs develops specialized software for key industries across East Africa. Based in Nairobi, we replace fragmented paperwork and spreadsheets with reliable platforms for schools, clinics, and hospitality businesses.
             </p>
           </Reveal>
         </div>
@@ -130,8 +130,8 @@ export default function AboutPage() {
       <section className="section-pad-sm" style={{ background: "#fff", borderBottom: "1px solid rgba(0,0,0,0.04)" }}>
         <div style={{ maxWidth: 1100, margin: "0 auto" }}>
           <Reveal>
-            <span className="section-label">Core Ethos</span>
-            <h2 className="section-title" style={{ marginBottom: 48 }}>The principles guiding our code</h2>
+            <span className="section-label">Our Principles</span>
+            <h2 className="section-title" style={{ marginBottom: 48 }}>How we build software</h2>
           </Reveal>
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 40 }}>
@@ -156,12 +156,12 @@ export default function AboutPage() {
 
       <section className="section-pad-sm" style={{ background: "var(--bg-alt)", textAlign: "center", borderTop: "1px solid rgba(0,0,0,0.04)" }}>
         <Reveal>
-          <h2 className="section-title" style={{ marginBottom: 14 }}>Explore institutional collaboration</h2>
+          <h2 className="section-title" style={{ marginBottom: 14 }}>Talk to our team</h2>
           <p style={{ color: "var(--text-secondary)", marginBottom: 32, fontSize: 17, maxWidth: 520, margin: "0 auto 32px" }}>
-            Reach out to our leadership and engineering team to discuss deployments, pilots, or strategic partnerships.
+            Reach out to our leadership and engineering team to discuss deployments, pilots, or custom platform needs.
           </p>
           <Link href="/contact" className="btn btn-primary" style={{ padding: "12px 32px", borderRadius: 10, fontSize: 15 }}>
-            Schedule an Executive Consultation
+            Contact Engineering Team
           </Link>
         </Reveal>
       </section>

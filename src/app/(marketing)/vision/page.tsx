@@ -3,14 +3,14 @@ import Link from "next/link";
 import { Reveal } from "@/components/motion/Reveal";
 
 export const metadata: Metadata = {
-  title: "Vision & Sector Roadmap — Solforbs",
+  title: "Vision & Sector Roadmap | Solforbs",
   description: "Solforbs is engineering the digital operating infrastructure for every foundational sector powering Africa's economic expansion.",
 };
 
 const roadmapItems = [
   { 
     item: "Education Infrastructure (EduCore)", 
-    why: "Digitizing student records, biometric safety, and automated tuition collection for learning institutions — replacing paper registers with cloud-based accountability.",
+    why: "Digitizing student records, attendance, and automated tuition collection for schools, replacing paper registers with clear digital records.",
     link: "/#products"
   },
   { 
@@ -73,9 +73,9 @@ export default function VisionPage() {
         <div style={{ maxWidth: 820, margin: "0 auto", position: "relative", zIndex: 2 }}>
           <Reveal>
             <span className="section-label">Sector Roadmap</span>
-            <h2 className="section-title" style={{ marginBottom: 16 }}>One industry at a time. Zero compromise.</h2>
+            <h2 className="section-title" style={{ marginBottom: 16 }}>Sector by sector execution.</h2>
             <p style={{ fontSize: 17, color: "var(--text-secondary)", marginBottom: 64, maxWidth: 560, lineHeight: 1.6 }}>
-              Our multi-phase execution strategy: master the operational depth of a sector, achieve institutional scale, then unlock the next frontier.
+              We build deep workflow tools for one industry at a time, reach operational stability with real institutions, and expand methodically.
             </p>
           </Reveal>
 
@@ -133,13 +133,13 @@ export default function VisionPage() {
 
       <section className="section-pad-sm" style={{ background: "#fff", textAlign: "center", borderTop: "1px solid rgba(0,0,0,0.07)" }}>
         <Reveal>
-          <span className="section-label">Enterprise Partnerships</span>
+          <span className="section-label">Institutional Partnerships</span>
           <h2 className="section-title" style={{ marginBottom: 14 }}>Deploy institutional software with us</h2>
           <p style={{ color: "var(--text-secondary)", marginBottom: 36, fontSize: 17, maxWidth: 540, margin: "0 auto 36px", lineHeight: 1.6 }}>
-            Whether you represent a network of schools, a healthcare group, or an industry association, explore how Solforbs can transform your operational baseline.
+            Whether you represent a network of schools, a healthcare group, or an industry association, explore how our software platforms can streamline your operations.
           </p>
           <Link href="/contact" className="btn btn-primary" style={{ padding: "12px 32px", fontSize: 15, borderRadius: 10 }}>
-            Request Enterprise Consultation
+            Contact Our Team
           </Link>
         </Reveal>
       </section>

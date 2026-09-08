@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import IndustriesClient from "@/app/(marketing)/industries/IndustriesClient";
 
 export const metadata: Metadata = {
-  title: "Industries — Solforbs",
-  description: "Solforbs is building intelligent software platforms for every major sector — education, hospitality, healthcare, real estate, agriculture, and beyond.",
+  title: "Industries | Solforbs",
+  description: "Solforbs builds specialized operational software for education, hospitality, healthcare, and trade across Africa.",
 };
 
 export default function IndustriesPage() {

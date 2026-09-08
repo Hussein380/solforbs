@@ -7,7 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import ProjectFeatureCarousel from "./ProjectFeatureCarousel";
 import { Layers } from "lucide-react";
 
-/** Returns a valid http(s) URL or undefined — strictly checks hostname so "https://#" never passes */
+/** Returns a valid http(s) URL or undefined: strictly checks hostname so "https://#" never passes */
 function safeLink(url: string | undefined | null): string | undefined {
   if (!url) return undefined;
   const t = url.trim();

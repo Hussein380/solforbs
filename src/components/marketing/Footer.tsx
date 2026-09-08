@@ -62,7 +62,7 @@ export default function Footer() {
               Ready to modernize your operations?
             </h3>
             <p style={{ fontSize: 16, color: "#475569", marginBottom: 24 }}>
-              Get in touch with our team to see how Solforbs can transform your business.
+              Get in touch with our team to explore platform options for your organization.
             </p>
             <Link href="/contact" className="btn btn-primary-lg">
               Book a demo
@@ -71,7 +71,7 @@ export default function Footer() {
 
           <div style={{ flex: "1 1 300px" }}>
             <h4 style={{ fontSize: 16, fontWeight: 700, color: "#0F172A", marginBottom: 8 }}>
-              Subscribe to ecosystem updates
+              Subscribe to platform updates
             </h4>
             <p style={{ fontSize: 14, color: "#475569", marginBottom: 20 }}>
               Get the latest news on product launches and feature updates.
@@ -115,7 +115,7 @@ export default function Footer() {
             <Image src="/logo.png" alt="Solforbs" width={110} height={32}
               style={{ objectFit: "contain", height: 32, width: "auto", marginBottom: 20 }} />
             <p style={{ fontSize: 14, color: "#475569", lineHeight: 1.6, marginBottom: 20 }}>
-              Building intelligent software platforms for every industry that powers Africa&apos;s economy.
+              Building standard operational software for organizations across Africa.
             </p>
             <a href="mailto:info@solforbs.com" className="footer-link"
               style={{ fontWeight: 600, color: "var(--brand-mid)" }}>

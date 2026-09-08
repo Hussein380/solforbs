@@ -3,9 +3,9 @@ import HomeClient from "./HomeClient";
 import { getProjects } from "@/lib/actions/project.actions";
 
 export const metadata: Metadata = {
-  title: "Solforbs — Software built for every industry that powers Africa",
+  title: "Solforbs | Software built for every industry that powers Africa",
   description:
-    "Solforbs builds intelligent platforms that help organizations run better — starting with education, expanding across every sector in Africa.",
+    "Solforbs builds cloud management software for key African industries, starting with education and expanding across primary economic sectors.",
 };
 
 export default async function HomePage() {

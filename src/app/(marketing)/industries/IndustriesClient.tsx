@@ -90,10 +90,10 @@ export default function IndustriesClient() {
         <div style={{ maxWidth: 900, margin: "0 auto", position: "relative", zIndex: 2 }}>
           <span className="section-label">Sector Platforms</span>
           <h1 style={{ fontSize: "clamp(36px, 5.5vw, 64px)", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.04em", marginBottom: 20, fontFamily: "'Space Grotesk', sans-serif" }}>
-            Every foundational sector.<br />One unified ecosystem.
+            Sector-specific platforms.<br />Built for real workflows.
           </h1>
           <p style={{ fontSize: "clamp(16px, 1.8vw, 20px)", color: "var(--text-secondary)", maxWidth: 600, lineHeight: 1.65 }}>
-            We engineer mission-critical vertical software tailored to the unique regulatory, infrastructural, and payment realities of Africa&apos;s primary economic engines.
+            We engineer dedicated software tailored to the regulatory, connectivity, and payment realities of organizations across Africa.
           </p>
         </div>
       </section>
@@ -175,10 +175,10 @@ export default function IndustriesClient() {
 
       <section className="section-pad-sm" style={{ background: "#fff", textAlign: "center", borderTop: "1px solid rgba(0,0,0,0.07)" }}>
         <h2 style={{ fontSize: "clamp(24px, 3.2vw, 36px)", fontWeight: 800, marginBottom: 14, letterSpacing: "-0.03em", fontFamily: "'Space Grotesk', sans-serif" }}>
-          Need specialized digital infrastructure for your sector?
+          Need specialized software for your sector?
         </h2>
         <p style={{ color: "var(--text-secondary)", marginBottom: 32, fontSize: 16, maxWidth: 540, margin: "0 auto 32px", lineHeight: 1.6 }}>
-          We partner with industry federations, hospital groups, and educational boards to deploy customized platforms.
+          We work with school networks, hospital groups, and industry associations to roll out tailored operational software.
         </p>
         <Link href="/contact" className="btn btn-primary" style={{ padding: "12px 30px", borderRadius: 10, fontSize: 14 }}>
           Discuss Your Organization&apos;s Needs

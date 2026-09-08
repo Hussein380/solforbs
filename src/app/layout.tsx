@@ -4,11 +4,11 @@ import "./globals.css";
 export const metadata: Metadata = {
   metadataBase: new URL("https://solforbs.com"),
   title: {
-    default: "Solforbs — Software built for every industry that powers Africa",
+    default: "Solforbs | Software built for every industry that powers Africa",
     template: "%s | Solforbs",
   },
   description:
-    "Solforbs builds intelligent, industry-specific software platforms — starting with education and expanding to every major sector across Africa.",
+    "Solforbs builds cloud management software for key African industries, starting with education and expanding across primary economic sectors.",
   keywords: ["Solforbs", "industry software Africa", "SaaS Africa"],
 };
 
