@@ -1,13 +1,15 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { useRouter, usePathname } from "next/navigation";
 import { logoutAdminAction } from "@/lib/actions/adminAuth.actions";
-import { LogOut, User } from "lucide-react";
+import { LogOut, User, ExternalLink, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 
 export default function AdminHeader({ email }: { email: string }) {
   const router = useRouter();
+  const pathname = usePathname();
   const [loggingOut, setLoggingOut] = useState(false);
 
   const handleLogout = async () => {
@@ -21,42 +23,109 @@ export default function AdminHeader({ email }: { email: string }) {
     <header
       style={{
         background: "#FFFFFF",
-        padding: "14px 32px",
+        padding: "0 32px",
+        height: 64,
         display: "flex",
         justifyContent: "space-between",
         alignItems: "center",
         borderBottom: "1px solid rgba(0, 0, 0, 0.07)",
         position: "sticky",
         top: 0,
-        zIndex: 10,
+        zIndex: 50,
       }}
     >
-      <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
-        <Link href="/admin/projects" style={{ fontWeight: 800, fontSize: 18, color: "#0F172A", textDecoration: "none" }}>
-          Solforbs Admin
+      {/* Left: Brand + Navigation */}
+      <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
+        <Link href="/admin/projects" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+          <Image src="/logo.png" alt="Solforbs" width={110} height={30} style={{ height: 26, width: "auto", objectFit: "contain" }} />
+          <span
+            style={{
+              fontSize: 10.5,
+              fontWeight: 800,
+              textTransform: "uppercase",
+              letterSpacing: "0.06em",
+              color: "#0E5BFF",
+              background: "rgba(14, 91, 255, 0.08)",
+              padding: "2px 8px",
+              borderRadius: 6,
+            }}
+          >
+            Console
+          </span>
         </Link>
-        <nav style={{ display: "flex", gap: 16 }}>
+
+        {/* Separator */}
+        <div style={{ width: 1, height: 20, background: "#E2E8F0" }} />
+
+        {/* Navigation tabs */}
+        <nav style={{ display: "flex", alignItems: "center", gap: 6 }}>
           <Link
             href="/admin/projects"
-            style={{ fontSize: 13.5, fontWeight: 600, color: "var(--brand-mid)", textDecoration: "none" }}
+            style={{
+              fontSize: 13,
+              fontWeight: 700,
+              color: pathname?.startsWith("/admin/projects") ? "#0E5BFF" : "#64748B",
+              background: pathname?.startsWith("/admin/projects") ? "rgba(14, 91, 255, 0.06)" : "transparent",
+              padding: "6px 12px",
+              borderRadius: 6,
+              textDecoration: "none",
+              transition: "all 0.15s ease",
+            }}
           >
-            Projects
+            Platforms
           </Link>
         </nav>
       </div>
 
-      <div style={{ display: "flex", alignItems: "center", gap: 20 }}>
-        <Link href="/" target="_blank" style={{ fontSize: 13, color: "#64748B", textDecoration: "none" }}>
-          View Site ↗
+      {/* Right: Environment status, View Site, User, Logout */}
+      <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+        {/* Production health indicator */}
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 6,
+            padding: "4px 10px",
+            borderRadius: 100,
+            background: "#F0FDF4",
+            border: "1px solid #BBF7D0",
+          }}
+        >
+          <span style={{ width: 6, height: 6, borderRadius: "50%", background: "#16A34A" }} />
+          <span style={{ fontSize: 11.5, fontWeight: 700, color: "#166534" }}>Production</span>
+        </div>
+
+        <Link
+          href="/"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: "inline-flex",
+            alignItems: "center",
+            gap: 4,
+            fontSize: 13,
+            fontWeight: 600,
+            color: "#64748B",
+            textDecoration: "none",
+            transition: "color 0.15s ease",
+          }}
+          onMouseEnter={(e) => (e.currentTarget.style.color = "#0F172A")}
+          onMouseLeave={(e) => (e.currentTarget.style.color = "#64748B")}
+        >
+          <span>Live Site</span>
+          <ExternalLink size={12} />
         </Link>
 
-        {/* Admin Badge */}
+        {/* Separator */}
+        <div style={{ width: 1, height: 18, background: "#E2E8F0" }} />
+
+        {/* User Identity Chip */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             gap: 8,
-            padding: "5px 12px",
+            padding: "4px 10px 4px 6px",
             background: "#F8FAFC",
             borderRadius: 100,
             border: "1px solid #E2E8F0",
@@ -64,10 +133,10 @@ export default function AdminHeader({ email }: { email: string }) {
         >
           <div
             style={{
-              width: 22,
-              height: 22,
+              width: 24,
+              height: 24,
               borderRadius: "50%",
-              background: "#0E5BFF",
+              background: "linear-gradient(135deg, #0E5BFF 0%, #0043CE 100%)",
               color: "#FFFFFF",
               display: "flex",
               alignItems: "center",
@@ -76,19 +145,20 @@ export default function AdminHeader({ email }: { email: string }) {
           >
             <User size={12} />
           </div>
-          <span style={{ fontSize: 12.5, fontWeight: 600, color: "#334155" }}>
+          <span style={{ fontSize: 12.5, fontWeight: 600, color: "#1E293B" }}>
             {email}
           </span>
         </div>
 
-        {/* Logout Button */}
+        {/* Logout */}
         <button
           onClick={handleLogout}
           disabled={loggingOut}
+          title="Sign out of Solforbs Console"
           style={{
             display: "flex",
             alignItems: "center",
-            gap: 6,
+            gap: 5,
             background: "none",
             border: "1px solid #E2E8F0",
             borderRadius: 8,
@@ -97,15 +167,21 @@ export default function AdminHeader({ email }: { email: string }) {
             fontSize: 12.5,
             fontWeight: 600,
             cursor: loggingOut ? "not-allowed" : "pointer",
-            transition: "all 0.2s ease",
+            transition: "all 0.15s ease",
           }}
           onMouseEnter={(e) => {
-            e.currentTarget.style.borderColor = "#FCA5A5";
-            e.currentTarget.style.color = "#DC2626";
+            if (!loggingOut) {
+              e.currentTarget.style.borderColor = "#FCA5A5";
+              e.currentTarget.style.color = "#DC2626";
+              e.currentTarget.style.background = "#FEF2F2";
+            }
           }}
           onMouseLeave={(e) => {
-            e.currentTarget.style.borderColor = "#E2E8F0";
-            e.currentTarget.style.color = "#64748B";
+            if (!loggingOut) {
+              e.currentTarget.style.borderColor = "#E2E8F0";
+              e.currentTarget.style.color = "#64748B";
+              e.currentTarget.style.background = "none";
+            }
           }}
         >
           <LogOut size={13} />
