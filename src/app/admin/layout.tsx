@@ -1,11 +1,17 @@
+import { auth } from "@clerk/nextjs/server";
 import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 
-export default function AdminLayout({
+export default async function AdminLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { userId, redirectToSignIn } = await auth();
+  if (!userId) {
+    return redirectToSignIn();
+  }
+
   return (
     <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "#F8FAFC" }}>
       {/* Admin Header */}
@@ -25,7 +31,7 @@ export default function AdminLayout({
             Solforbs Admin
           </Link>
           <nav style={{ display: "flex", gap: 16 }}>
-            <Link href="/admin/projects" style={{ fontSize: 14, fontWeight: 600, color: "#0E5BFF", textDecoration: "none" }}>
+            <Link href="/admin/projects" style={{ fontSize: 14, fontWeight: 600, color: "var(--brand-mid)", textDecoration: "none" }}>
               Projects
             </Link>
           </nav>

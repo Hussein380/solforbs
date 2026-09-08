@@ -202,7 +202,7 @@ export default function HeroCarousel() {
             onClick={() => setIndex(i)}
             style={{ 
               width: i === index ? 20 : 8, height: 8, borderRadius: 4, 
-              background: i === index ? "#2878E8" : "#D1D5DB",
+              background: i === index ? "var(--brand-mid)" : "#D1D5DB",
               transition: "all 0.3s ease",
               cursor: "pointer"
             }} 

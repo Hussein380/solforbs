@@ -14,10 +14,10 @@ const config = {
   },
   in_development: {
     label: "In development",
-    dot: "#2878E8",
-    bg: "rgba(40,120,232,0.07)",
-    text: "#1A3FD4",
-    border: "rgba(40,120,232,0.18)",
+    dot: "#0896FD",
+    bg: "rgba(8,150,253,0.08)",
+    text: "#0252F1",
+    border: "rgba(8,150,253,0.20)",
     glow: "none",
   },
   planned: {

@@ -16,7 +16,7 @@ const projects = [
     features: ["Admissions & records", "Attendance & timetabling", "Finance & fee tracking"],
     image: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&auto=format&fit=crop&q=80",
     link: "/products/school-management",
-    color: "#2878E8"
+    color: "var(--brand-mid)"
   },
   {
     id: "hospitality",

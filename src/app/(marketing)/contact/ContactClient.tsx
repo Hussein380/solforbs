@@ -60,7 +60,7 @@ export default function ContactClient() {
       <section className="section-pad stack-mobile" style={{ background: "#fff", borderBottom: "1px solid rgba(0,0,0,0.04)" }}>
         <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
           <Reveal>
-            <p style={{ fontSize: 13, fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "#0E5BFF", marginBottom: 18 }}>Get in touch</p>
+            <span className="section-label">Get in touch</span>
             <h1 style={{ fontSize: "clamp(34px, 5vw, 58px)", fontWeight: 700, lineHeight: 1.1, letterSpacing: "-0.04em", marginBottom: 20, fontFamily: "'Space Grotesk', sans-serif", color: "#0F172A" }}>
               Contact our team
             </h1>
@@ -73,7 +73,7 @@ export default function ContactClient() {
 
       <section className="section-pad-sm" style={{ background: "#F8FAFC", position: "relative", overflow: "hidden" }}>
         {/* Subtle background element */}
-        <div style={{ position: "absolute", top: -200, right: -200, width: 600, height: 600, background: "radial-gradient(circle, rgba(14,91,255,0.05) 0%, transparent 60%)", pointerEvents: "none" }} />
+        <div style={{ position: "absolute", top: -200, right: -200, width: 600, height: 600, background: "radial-gradient(circle, var(--brand-tint-8) 0%, transparent 60%)", pointerEvents: "none" }} />
         
         <div style={{ maxWidth: 1000, margin: "0 auto", display: "grid", gap: 64, gridTemplateColumns: "1fr 1.8fr", position: "relative", zIndex: 2 }} className="contact-grid">
           
@@ -97,7 +97,7 @@ export default function ContactClient() {
                     >
                       <div style={{ 
                         width: 44, height: 44, borderRadius: 12, background: "#fff", border: "1px solid rgba(0,0,0,0.04)", 
-                        display: "flex", alignItems: "center", justifyContent: "center", color: "#0E5BFF",
+                        display: "flex", alignItems: "center", justifyContent: "center", color: "var(--brand-mid)",
                         boxShadow: "0 4px 12px rgba(0,0,0,0.02)"
                       }}>
                         <Icon size={20} strokeWidth={2} />
@@ -108,8 +108,8 @@ export default function ContactClient() {
                         {item.href ? (
                           <a href={item.href} target={item.href.startsWith("http") ? "_blank" : undefined} rel="noopener noreferrer"
                             style={{ fontSize: 15, color: "#0F172A", fontWeight: 600, transition: "color 0.2s" }}
-                            onMouseEnter={(e) => e.currentTarget.style.color = "#0E5BFF"}
-                            onMouseLeave={(e) => e.currentTarget.style.color = "#0F172A"}>
+                            onMouseEnter={(e) => (e.currentTarget.style.color = "var(--brand-mid)")}
+                            onMouseLeave={(e) => (e.currentTarget.style.color = "#0F172A")}>
                             {item.value}
                           </a>
                         ) : (
@@ -151,7 +151,7 @@ export default function ContactClient() {
                         value={formData.name}
                         onChange={(e) => setFormData((p) => ({ ...p, name: e.target.value }))}
                         style={inputStyle}
-                        onFocus={(e) => { e.currentTarget.style.borderColor = "#0E5BFF"; e.currentTarget.style.background = "#fff"; e.currentTarget.style.boxShadow = "0 0 0 4px rgba(14,91,255,0.1)"; }}
+                        onFocus={(e) => { e.currentTarget.style.borderColor = "var(--brand-mid)"; e.currentTarget.style.background = "#fff"; e.currentTarget.style.boxShadow = "0 0 0 4px var(--brand-tint-12)"; }}
                         onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(0,0,0,0.06)"; e.currentTarget.style.background = "#F8FAFC"; e.currentTarget.style.boxShadow = "inset 0 2px 4px rgba(0,0,0,0.01)"; }} />
                     </div>
                     <div>
@@ -160,7 +160,7 @@ export default function ContactClient() {
                         value={formData.email}
                         onChange={(e) => setFormData((p) => ({ ...p, email: e.target.value }))}
                         style={inputStyle}
-                        onFocus={(e) => { e.currentTarget.style.borderColor = "#0E5BFF"; e.currentTarget.style.background = "#fff"; e.currentTarget.style.boxShadow = "0 0 0 4px rgba(14,91,255,0.1)"; }}
+                        onFocus={(e) => { e.currentTarget.style.borderColor = "var(--brand-mid)"; e.currentTarget.style.background = "#fff"; e.currentTarget.style.boxShadow = "0 0 0 4px var(--brand-tint-12)"; }}
                         onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(0,0,0,0.06)"; e.currentTarget.style.background = "#F8FAFC"; e.currentTarget.style.boxShadow = "inset 0 2px 4px rgba(0,0,0,0.01)"; }} />
                     </div>
                   </div>
@@ -171,7 +171,7 @@ export default function ContactClient() {
                       value={formData.organization}
                       onChange={(e) => setFormData((p) => ({ ...p, organization: e.target.value }))}
                       style={inputStyle}
-                      onFocus={(e) => { e.currentTarget.style.borderColor = "#0E5BFF"; e.currentTarget.style.background = "#fff"; e.currentTarget.style.boxShadow = "0 0 0 4px rgba(14,91,255,0.1)"; }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = "var(--brand-mid)"; e.currentTarget.style.background = "#fff"; e.currentTarget.style.boxShadow = "0 0 0 4px var(--brand-tint-12)"; }}
                       onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(0,0,0,0.06)"; e.currentTarget.style.background = "#F8FAFC"; e.currentTarget.style.boxShadow = "inset 0 2px 4px rgba(0,0,0,0.01)"; }} />
                   </div>
 
@@ -182,7 +182,7 @@ export default function ContactClient() {
                       value={formData.message}
                       onChange={(e) => setFormData((p) => ({ ...p, message: e.target.value }))}
                       style={{ ...inputStyle, resize: "vertical" }}
-                      onFocus={(e) => { e.currentTarget.style.borderColor = "#0E5BFF"; e.currentTarget.style.background = "#fff"; e.currentTarget.style.boxShadow = "0 0 0 4px rgba(14,91,255,0.1)"; }}
+                      onFocus={(e) => { e.currentTarget.style.borderColor = "var(--brand-mid)"; e.currentTarget.style.background = "#fff"; e.currentTarget.style.boxShadow = "0 0 0 4px var(--brand-tint-12)"; }}
                       onBlur={(e) => { e.currentTarget.style.borderColor = "rgba(0,0,0,0.06)"; e.currentTarget.style.background = "#F8FAFC"; e.currentTarget.style.boxShadow = "inset 0 2px 4px rgba(0,0,0,0.01)"; }} />
                   </div>
 
@@ -200,10 +200,10 @@ export default function ContactClient() {
                     disabled={isSubmitting}
                     style={{
                       width: "100%", padding: "16px 28px", marginTop: 8,
-                      background: "linear-gradient(135deg, #0E5BFF, #1AA8FF)", color: "#fff",
+                      background: "var(--gradient-cta)", color: "#fff",
                       borderRadius: 12, fontSize: 16, fontWeight: 700, border: "none",
                       cursor: isSubmitting ? "wait" : "pointer", 
-                      boxShadow: "0 8px 20px rgba(14,91,255,0.25)",
+                      boxShadow: "var(--shadow-brand)",
                       opacity: isSubmitting ? 0.7 : 1,
                       display: "flex", justifyContent: "center", alignItems: "center", gap: 8
                     }}

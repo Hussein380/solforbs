@@ -39,7 +39,7 @@ export default function HeroCards() {
         <div style={{ display: "flex", gap: 4, marginTop: 16 }}>
           {[92, 94, 91, 95, 96].map((val, i) => (
             <div key={i} style={{ flex: 1, background: "#F3F4F6", borderRadius: 4, height: 32, position: "relative", overflow: "hidden" }}>
-              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: `${val}%`, background: i === 4 ? "linear-gradient(to top, #39A8F5, #1A3FD4)" : "#D1D5DB", borderRadius: 4 }} />
+              <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: `${val}%`, background: i === 4 ? "var(--gradient-brand)" : "#D1D5DB", borderRadius: 4 }} />
             </div>
           ))}
         </div>
