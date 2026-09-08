@@ -411,7 +411,7 @@ export default function ProjectsDashboardClient({
                             }}
                           >
                             {proj.heroImageUrl ? (
-                              <Image src={proj.heroImageUrl} alt={proj.name} fill style={{ objectFit: "cover" }} />
+                              <Image src={proj.heroImageUrl} alt={proj.name} fill unoptimized style={{ objectFit: "cover" }} />
                             ) : (
                               <Icon size={20} color="#0E5BFF" strokeWidth={2} />
                             )}
