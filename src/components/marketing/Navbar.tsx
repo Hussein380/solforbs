@@ -43,11 +43,25 @@ export default function Navbar({ projects = [] }: { projects?: any[] }) {
 
   const { scrollY } = useScroll();
   const lastY = useRef(0);
+  const isScrolledRef = useRef(false);
+  const isHiddenRef = useRef(false);
 
   useMotionValueEvent(scrollY, "change", (y) => {
-    setHidden(y > lastY.current && y > 120);
-    setScrolled(y > 40);
-    lastY.current = y;
+    const shouldHide = y > lastY.current && y > 120;
+    const shouldScroll = y > 40;
+
+    if (Math.abs(y - lastY.current) > 14) {
+      if (shouldHide !== isHiddenRef.current) {
+        isHiddenRef.current = shouldHide;
+        setHidden(shouldHide);
+      }
+      lastY.current = y;
+    }
+
+    if (shouldScroll !== isScrolledRef.current) {
+      isScrolledRef.current = shouldScroll;
+      setScrolled(shouldScroll);
+    }
   });
 
   const openMega  = () => { if (megaMenuTimeout.current) clearTimeout(megaMenuTimeout.current); setMegaMenuOpen(true); };
@@ -66,15 +80,15 @@ export default function Navbar({ projects = [] }: { projects?: any[] }) {
           display: "flex", justifyContent: "center",
           padding: scrolled ? "0" : "12px 24px",
           transition: "padding 0.3s ease",
+          willChange: "transform",
         }}
       >
         <div style={{ position: "relative", width: "100%", maxWidth: scrolled ? "100%" : 1100, display: "flex", justifyContent: "center" }}>
 
-          <nav style={{
+          <nav className="navbar-glass" style={{
             display: "flex", alignItems: "center", justifyContent: "space-between",
             width: "100%", padding: "0 24px", height: 68,
             background: scrolled ? "rgba(255,255,255,0.94)" : "rgba(255,255,255,0.96)",
-            backdropFilter: "blur(24px)", WebkitBackdropFilter: "blur(24px)",
             borderBottom: scrolled ? "1px solid rgba(0,0,0,0.07)" : "1px solid transparent",
             borderRadius: scrolled ? 0 : 14,
             boxShadow: scrolled ? "0 2px 16px rgba(0,0,0,0.06)" : "0 4px 24px rgba(0,0,0,0.07)",

@@ -95,7 +95,7 @@ export default function HeroCarousel() {
       style={{ perspective: 1200, zIndex: 10 }}
     >
       {/* Background glow */}
-      <div style={{ position: "absolute", top: "20%", left: "10%", width: 400, height: 400, background: "radial-gradient(circle, rgba(40,120,232,0.06) 0%, transparent 60%)", filter: "blur(40px)", pointerEvents: "none" }} />
+      <div className="hero-glow" style={{ position: "absolute", top: "20%", left: "10%", width: 400, height: 400, background: "radial-gradient(circle, rgba(40,120,232,0.06) 0%, transparent 60%)", filter: "blur(40px)", pointerEvents: "none" }} />
 
       <div style={{ position: "relative", width: "100%", height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
         {screens.map((screen, i) => {
@@ -140,6 +140,7 @@ export default function HeroCarousel() {
                 WebkitFontSmoothing: "antialiased",
                 transformStyle: "preserve-3d",
                 backfaceVisibility: "hidden",
+                willChange: "transform, opacity",
               }}
               whileTap={isCenter ? { cursor: "grabbing" } : {}}
             >

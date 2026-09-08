@@ -199,7 +199,7 @@ export default function HomeClient({ projects = [] }: { projects?: any[] }) {
         {/* Bottom divider */}
         <div style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 1, background: "rgba(0,0,0,0.06)", zIndex: 3 }} />
 
-        <motion.div className="section-pad" style={{ position: "relative", zIndex: 4, maxWidth: 1100, margin: "0 auto", width: "100%", opacity: heroOpacity }}>
+        <motion.div className="section-pad hero-content-wrap" style={{ position: "relative", zIndex: 4, maxWidth: 1100, margin: "0 auto", width: "100%", opacity: heroOpacity }}>
           {/* Live banner */}
           {(() => {
             const featuredProject = projects?.find(p => p.status === "live");
