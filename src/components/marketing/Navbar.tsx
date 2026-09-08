@@ -34,10 +34,11 @@ const getIconForIndustry = (industry: string): React.ElementType =>
 
 /* ── Component ───────────────────────────────────────────────────── */
 export default function Navbar({ projects = [] }: { projects?: any[] }) {
-  const [scrolled,      setScrolled]      = useState(false);
-  const [hidden,        setHidden]        = useState(false);
-  const [menuOpen,      setMenuOpen]      = useState(false);
-  const [megaMenuOpen,  setMegaMenuOpen]  = useState(false);
+  const [scrolled,           setScrolled]           = useState(false);
+  const [hidden,             setHidden]             = useState(false);
+  const [menuOpen,           setMenuOpen]           = useState(false);
+  const [megaMenuOpen,       setMegaMenuOpen]       = useState(false);
+  const [mobileProductsOpen, setMobileProductsOpen] = useState(false);
   const megaMenuTimeout = useRef<NodeJS.Timeout | null>(null);
 
   const { scrollY } = useScroll();
@@ -213,7 +214,10 @@ export default function Navbar({ projects = [] }: { projects?: any[] }) {
             <button
               aria-label="Toggle menu"
               className="nav-mobile"
-              onClick={() => setMenuOpen(o => !o)}
+              onClick={() => {
+                setMenuOpen(o => !o);
+                if (menuOpen) setMobileProductsOpen(false);
+              }}
               style={{
                 background: "transparent", 
                 border: "none",
@@ -243,7 +247,10 @@ export default function Navbar({ projects = [] }: { projects?: any[] }) {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
-              onClick={() => setMenuOpen(false)}
+              onClick={() => {
+                setMenuOpen(false);
+                setMobileProductsOpen(false);
+              }}
               style={{
                 position: "fixed",
                 inset: 0,
@@ -270,104 +277,143 @@ export default function Navbar({ projects = [] }: { projects?: any[] }) {
                 borderRadius: 20,
                 boxShadow: "0 24px 60px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.04)",
                 border: "1px solid rgba(0, 0, 0, 0.08)",
-                padding: "20px 18px",
+                padding: "16px 14px",
                 maxHeight: "calc(100vh - 96px)",
                 overflowY: "auto",
                 display: "flex",
                 flexDirection: "column",
               }}
             >
-              {/* Products Section */}
-              <div style={{ marginBottom: 14 }}>
-                <span 
-                  style={{ 
-                    fontSize: 11, 
-                    fontWeight: 700, 
-                    letterSpacing: "0.08em", 
-                    textTransform: "uppercase", 
-                    color: "var(--text-tertiary)",
-                    display: "block",
-                    marginBottom: 10,
-                  }}
-                >
-                  Platform Products
-                </span>
+              {/* Navigation Items with Expandable Products Accordion */}
+              <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                
+                {/* Products Dropdown Accordion Trigger */}
+                <div>
+                  <button
+                    type="button"
+                    onClick={() => setMobileProductsOpen(!mobileProductsOpen)}
+                    style={{
+                      width: "100%",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      padding: "12px 14px",
+                      borderRadius: 12,
+                      fontSize: 15,
+                      fontWeight: 600,
+                      color: mobileProductsOpen ? "var(--brand-mid)" : "var(--text-primary)",
+                      background: mobileProductsOpen ? "var(--brand-tint-8)" : "transparent",
+                      border: "none",
+                      cursor: "pointer",
+                      transition: "all 0.2s ease",
+                    }}
+                  >
+                    <span>Products</span>
+                    <motion.div
+                      animate={{ rotate: mobileProductsOpen ? 180 : 0 }}
+                      transition={{ duration: 0.2 }}
+                      style={{ display: "flex", alignItems: "center" }}
+                    >
+                      <ChevronDown size={17} color={mobileProductsOpen ? "var(--brand-mid)" : "var(--text-tertiary)"} />
+                    </motion.div>
+                  </button>
 
-                <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
-                  {liveProjects.map((proj) => {
-                    const Icon: any = getIconForIndustry(proj.industry);
-                    const rawUrl = proj.subdomain ? `https://${proj.subdomain}` : proj.liveUrl;
-                    const isExternal = rawUrl && rawUrl !== "#" && rawUrl !== "https://#" && rawUrl !== "http://#" && rawUrl.startsWith("http");
-                    const targetHref = isExternal ? rawUrl : "/#products";
-
-                    return (
-                      <a
-                        key={proj._id}
-                        href={targetHref}
-                        target={isExternal ? "_blank" : undefined}
-                        rel={isExternal ? "noopener noreferrer" : undefined}
-                        onClick={() => setMenuOpen(false)}
-                        style={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 12,
-                          padding: "10px 12px",
-                          borderRadius: 12,
-                          background: "#F8FAFC",
-                          border: "1px solid rgba(0, 0, 0, 0.04)",
-                          textDecoration: "none",
-                        }}
+                  {/* Expandable Products List (Only visible when Products is clicked) */}
+                  <AnimatePresence initial={false}>
+                    {mobileProductsOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.22, ease: "easeOut" }}
+                        style={{ overflow: "hidden" }}
                       >
-                        <div
-                          style={{
-                            width: 36,
-                            height: 36,
-                            borderRadius: 9,
-                            background: "var(--gradient-brand)",
-                            color: "#fff",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            flexShrink: 0,
-                          }}
-                        >
-                          <Icon size={18} />
-                        </div>
+                        <div style={{ display: "flex", flexDirection: "column", gap: 6, padding: "8px 0 8px 8px" }}>
+                          {liveProjects.length > 0 ? (
+                            liveProjects.map((proj) => {
+                              const Icon: any = getIconForIndustry(proj.industry);
+                              const rawUrl = proj.subdomain ? `https://${proj.subdomain}` : proj.liveUrl;
+                              const isExternal = rawUrl && rawUrl !== "#" && rawUrl !== "https://#" && rawUrl !== "http://#" && rawUrl.startsWith("http");
+                              const targetHref = isExternal ? rawUrl : "/#products";
 
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          <div style={{ fontSize: 14, fontWeight: 700, color: "var(--text-primary)" }}>
-                            {proj.name}
-                          </div>
-                          <div style={{ fontSize: 11, color: "var(--text-secondary)", textTransform: "capitalize" }}>
-                            {proj.industry}
-                          </div>
-                        </div>
+                              return (
+                                <a
+                                  key={proj._id}
+                                  href={targetHref}
+                                  target={isExternal ? "_blank" : undefined}
+                                  rel={isExternal ? "noopener noreferrer" : undefined}
+                                  onClick={() => {
+                                    setMenuOpen(false);
+                                    setMobileProductsOpen(false);
+                                  }}
+                                  style={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: 10,
+                                    padding: "9px 10px",
+                                    borderRadius: 10,
+                                    background: "#F8FAFC",
+                                    border: "1px solid rgba(0, 0, 0, 0.04)",
+                                    textDecoration: "none",
+                                  }}
+                                >
+                                  <div
+                                    style={{
+                                      width: 32,
+                                      height: 32,
+                                      borderRadius: 8,
+                                      background: "var(--gradient-brand)",
+                                      color: "#fff",
+                                      display: "flex",
+                                      alignItems: "center",
+                                      justifyContent: "center",
+                                      flexShrink: 0,
+                                    }}
+                                  >
+                                    <Icon size={16} />
+                                  </div>
 
-                        {proj.status && (proj.status === "live" || proj.status === "in_development" || proj.status === "planned") && (
-                          <StatusBadge status={proj.status as "live" | "in_development" | "planned"} size="sm" />
-                        )}
-                        <ChevronRight size={15} color="var(--text-tertiary)" />
-                      </a>
-                    );
-                  })}
+                                  <div style={{ flex: 1, minWidth: 0 }}>
+                                    <div style={{ fontSize: 13.5, fontWeight: 700, color: "var(--text-primary)" }}>
+                                      {proj.name}
+                                    </div>
+                                    <div style={{ fontSize: 11, color: "var(--text-secondary)", textTransform: "capitalize" }}>
+                                      {proj.industry}
+                                    </div>
+                                  </div>
+
+                                  {proj.status && (proj.status === "live" || proj.status === "in_development" || proj.status === "planned") && (
+                                    <StatusBadge status={proj.status as "live" | "in_development" | "planned"} size="sm" />
+                                  )}
+                                  <ChevronRight size={14} color="var(--text-tertiary)" />
+                                </a>
+                              );
+                            })
+                          ) : (
+                            <div style={{ padding: "10px", color: "var(--text-tertiary)", fontSize: 13 }}>
+                              No live products currently
+                            </div>
+                          )}
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
-              </div>
 
-              {/* Divider */}
-              <div style={{ height: 1, background: "rgba(0, 0, 0, 0.06)", margin: "8px 0 14px" }} />
-
-              {/* Navigation Links */}
-              <div style={{ display: "flex", flexDirection: "column", gap: 4 }}>
+                {/* Other Nav Links */}
                 {navLinks.map((link) => (
                   <Link
                     key={link.label}
                     href={link.href}
-                    onClick={() => setMenuOpen(false)}
+                    onClick={() => {
+                      setMenuOpen(false);
+                      setMobileProductsOpen(false);
+                    }}
                     style={{
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between",
-                      padding: "11px 12px",
+                      padding: "12px 14px",
                       borderRadius: 10,
                       fontSize: 15,
                       fontWeight: 600,
@@ -382,10 +428,13 @@ export default function Navbar({ projects = [] }: { projects?: any[] }) {
               </div>
 
               {/* Compact Bottom CTA */}
-              <div style={{ marginTop: 16, paddingTop: 14, borderTop: "1px solid rgba(0, 0, 0, 0.06)" }}>
+              <div style={{ marginTop: 14, paddingTop: 12, borderTop: "1px solid rgba(0, 0, 0, 0.06)" }}>
                 <Link
                   href="/contact"
-                  onClick={() => setMenuOpen(false)}
+                  onClick={() => {
+                    setMenuOpen(false);
+                    setMobileProductsOpen(false);
+                  }}
                   style={{
                     display: "flex",
                     alignItems: "center",
