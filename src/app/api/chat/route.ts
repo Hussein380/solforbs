@@ -6,14 +6,8 @@ export const dynamic = "force-dynamic";
 
 const GEMINI_API_KEY = process.env.GEMINI_API_KEY;
 
-// Optimized model hierarchy: fastest models first (780ms) with fallback to full preview models
-const MODEL_CANDIDATES = [
-  "gemini-flash-lite-latest",
-  "gemini-3.5-flash-lite",
-  "gemini-3.5-flash",
-  "gemini-3-flash-preview",
-  "gemini-flash-latest",
-];
+// Google Gemini Free Tier Model (Fastest, lightweight, 0 cost)
+const FREE_MODEL = "gemini-flash-lite-latest";
 
 export async function POST(req: NextRequest) {
   try {
@@ -108,56 +102,50 @@ BEHAVIORAL GUIDELINES:
       parts: [{ text: message.trim() }],
     });
 
-    // Attempt generation with automatic model fallback
+    // Call free Gemini model with a generous 30s timeout
     let replyText = "";
     let lastError: any = null;
 
-    for (const model of MODEL_CANDIDATES) {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 6000); // 6s timeout per candidate
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 30000); // 30s timeout
 
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_API_KEY}`;
-        const response = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          signal: controller.signal,
-          body: JSON.stringify({
-            contents,
-            systemInstruction: {
-              parts: [{ text: systemPrompt }],
-            },
-            generationConfig: {
-              temperature: 0.25,
-              maxOutputTokens: 380,
-            },
-          }),
-        });
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/${FREE_MODEL}:generateContent?key=${GEMINI_API_KEY}`;
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        signal: controller.signal,
+        body: JSON.stringify({
+          contents,
+          systemInstruction: {
+            parts: [{ text: systemPrompt }],
+          },
+          generationConfig: {
+            temperature: 0.25,
+            maxOutputTokens: 400,
+          },
+        }),
+      });
 
-        clearTimeout(timeoutId);
+      clearTimeout(timeoutId);
 
-        if (response.ok) {
-          const data = await response.json();
-          const candidateText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (candidateText) {
-            replyText = candidateText;
-            break;
-          }
-        } else {
-          const errData = await response.json().catch(() => ({}));
-          lastError = { status: response.status, message: errData?.error?.message };
-          console.warn(`Model ${model} failed:`, response.status, errData?.error?.message);
-        }
-      } catch (err: any) {
-        lastError = { message: err.message };
-        console.warn(`Error calling model ${model}:`, err.message);
+      if (response.ok) {
+        const data = await response.json();
+        replyText = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+      } else {
+        const errData = await response.json().catch(() => ({}));
+        lastError = { status: response.status, message: errData?.error?.message };
+        console.error(`Gemini free model (${FREE_MODEL}) failed:`, response.status, errData?.error?.message);
       }
+    } catch (err: any) {
+      lastError = { message: err.message };
+      console.error(`Error calling Gemini free model (${FREE_MODEL}):`, err.message);
     }
 
     if (!replyText) {
-      console.error("All AI models in fallback chain failed. Last error:", lastError);
+      console.error("Chat generation failed. Last error:", lastError);
       return NextResponse.json({
-        reply: "Thank you for reaching out to Solforbs. Our advisory service is momentarily handling high volume, but our Executive team is directly available on WhatsApp at [+254 725 996 394](https://wa.me/254725996394) or via email at [info@solforbs.com](mailto:info@solforbs.com). How can we assist your institution?",
+        reply: "Thank you for reaching out to Solforbs. Our advisory desk is directly reachable on WhatsApp at [+254 725 996 394](https://wa.me/254725996394) or via email at [info@solforbs.com](mailto:info@solforbs.com). How can we assist your institution?",
       });
     }
 
